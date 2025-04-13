@@ -6,6 +6,10 @@ android {
     namespace = "kr.ac.tukorea.ge.and.leejunho3288.fruitjumper"
     compileSdk = 35
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     defaultConfig {
         applicationId = "kr.ac.tukorea.ge.and.leejunho3288.fruitjumper"
         minSdk = 24
