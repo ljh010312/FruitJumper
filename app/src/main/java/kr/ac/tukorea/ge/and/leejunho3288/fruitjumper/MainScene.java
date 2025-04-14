@@ -15,7 +15,7 @@ public class MainScene extends Scene {
     public MainScene() {
         //Metrics.setGameSize(1000, 1600);
         //Metrics.setGameSize(700, 1600);
-        Metrics.setGameSize(1000, 600);
+        Metrics.setGameSize(1600, 900);
 
     }
 }
