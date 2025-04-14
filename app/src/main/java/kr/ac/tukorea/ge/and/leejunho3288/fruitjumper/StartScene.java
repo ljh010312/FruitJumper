@@ -14,8 +14,10 @@ public class StartScene extends Scene {
         Bitmap image = BitmapPool.get(R.mipmap.start_fruit_jumper);
         gameObjects.add(new ImageObject(image, 0, 0, Metrics.width, Metrics.height));
         Bitmap btnBitmap = BitmapPool.get(R.mipmap.button_play);
+        Bitmap pressedBtnBitmap = BitmapPool.get(R.mipmap.button_play_pressed);
         startButton = new ButtonObject(
                 btnBitmap,
+                pressedBtnBitmap,
                 700, 600, 900, 800,
                 () -> new MainScene().push()
         );
@@ -24,10 +26,6 @@ public class StartScene extends Scene {
     }
 
     public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            float[] xy = Metrics.fromScreen(event.getX(), event.getY());
-            return startButton.handleTouch(xy[0], xy[1]);
-        }
-        return false;
+        return startButton.handleTouch(event);
     }
 }
