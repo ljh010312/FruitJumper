@@ -1,10 +1,12 @@
-package kr.ac.tukorea.ge.and.leejunho3288.fruitjumper;
+package kr.ac.tukorea.ge.and.leejunho3288.fruitjumper.app;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import kr.ac.tukorea.ge.and.leejunho3288.fruitjumper.R;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package kr.ac.tukorea.ge.and.leejunho3288.fruitjumper;
+package kr.ac.tukorea.ge.spgp2025.a2dg.framework.activity;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.view.WindowInsetsController;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
+import kr.ac.tukorea.ge.spgp2025.a2dg.framework.view.GameView;
+
 public class GameActivity extends AppCompatActivity {
 
     private GameView gameView;
@@ -17,7 +19,6 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         gameView = new GameView(this);
-        new StartScene().push();
         setContentView(gameView);
 
         setFullScreen();
