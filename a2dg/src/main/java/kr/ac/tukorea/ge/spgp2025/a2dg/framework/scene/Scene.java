@@ -1,11 +1,16 @@
 package kr.ac.tukorea.ge.spgp2025.a2dg.framework.scene;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
 import android.view.MotionEvent;
 import android.util.Log;
 
 import java.util.ArrayList;
 
+import kr.ac.tukorea.ge.spgp2025.a2dg.framework.interfaces.IBoxCollidable;
+import kr.ac.tukorea.ge.spgp2025.a2dg.framework.interfaces.IRecyclable;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.view.GameView;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.interfaces.IGameObject;
 
@@ -18,6 +23,18 @@ public class Scene {
     public void add(IGameObject gameObject) {
         gameObjects.add(gameObject);
         //Log.d(TAG, gameObjects.size() + " objects in " + this);
+    }
+
+    public void remove(IGameObject gobj) {
+        gameObjects.remove(gobj);
+        // IGameObject.onRemove() 를 생성하여 호출하는 것이 나을까?
+        if (gobj instanceof IRecyclable) {
+            ((IRecyclable) gobj).recycle();
+        }
+    }
+
+    public int count() {
+        return gameObjects.size();
     }
 
     //////////////////////////////////////////////////
@@ -34,7 +51,21 @@ public class Scene {
         for (IGameObject gobj : gameObjects) {
             gobj.draw(canvas);
         }
+        if (GameView.drawsDebugStuffs) {
+            if (bboxPaint == null) {
+                bboxPaint = new Paint();
+                bboxPaint.setStyle(Paint.Style.STROKE);
+                bboxPaint.setColor(Color.RED);
+            }
+            for (IGameObject gobj : gameObjects) {
+                if (gobj instanceof IBoxCollidable) {
+                    RectF rect = ((IBoxCollidable) gobj).getCollisionRect();
+                    canvas.drawRect(rect, bboxPaint);
+                }
+            }
+        }
     }
+    protected static Paint bboxPaint;
 
     //////////////////////////////////////////////////
     // Scene Stack Functions
