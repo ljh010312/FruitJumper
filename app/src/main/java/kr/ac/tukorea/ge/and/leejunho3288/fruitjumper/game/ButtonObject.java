@@ -25,7 +25,9 @@ public class ButtonObject implements IGameObject {
 
     public void update() {
     }
-
+    public boolean isPressed() {
+        return isPressed;
+    }
     public void draw(Canvas canvas) {
         Bitmap bitmapToDraw = isPressed ? pressedBitmap : bitmap;
         canvas.drawBitmap(bitmapToDraw, null, rect, null);    }

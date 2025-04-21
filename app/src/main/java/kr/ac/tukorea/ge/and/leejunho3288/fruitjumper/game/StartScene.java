@@ -15,7 +15,7 @@ public class StartScene extends Scene {
     public StartScene() {
         Metrics.setGameSize(1600, 900);
         Bitmap image = BitmapPool.get(R.mipmap.start_fruit_jumper);
-        gameObjects.add(new ImageObject(image, 0, 0, Metrics.width, Metrics.height));
+        add(new ImageObject(image, 0, 0, Metrics.width, Metrics.height));
         Bitmap btnBitmap = BitmapPool.get(R.mipmap.button_play);
         Bitmap pressedBtnBitmap = BitmapPool.get(R.mipmap.button_play_pressed);
         startButton = new ButtonObject(
@@ -24,7 +24,7 @@ public class StartScene extends Scene {
                 700, 600, 900, 800,
                 () -> new MainScene().push()
         );
-        gameObjects.add(startButton);
+        add(startButton);
 
     }
 
