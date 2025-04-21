@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "FruitJumper"
 include(":app")
- 
+include("a2dg")
