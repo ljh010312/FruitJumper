@@ -1,9 +1,12 @@
-package kr.ac.tukorea.ge.and.leejunho3288.fruitjumper;
+package kr.ac.tukorea.ge.and.leejunho3288.fruitjumper.game;
 
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.MotionEvent;
-import android.widget.Button;
+
+import kr.ac.tukorea.ge.and.leejunho3288.fruitjumper.R;
+import kr.ac.tukorea.ge.spgp2025.a2dg.framework.res.BitmapPool;
+import kr.ac.tukorea.ge.spgp2025.a2dg.framework.scene.Scene;
+import kr.ac.tukorea.ge.spgp2025.a2dg.framework.view.Metrics;
 
 public class StartScene extends Scene {
     private static final String TAG = StartScene.class.getSimpleName();

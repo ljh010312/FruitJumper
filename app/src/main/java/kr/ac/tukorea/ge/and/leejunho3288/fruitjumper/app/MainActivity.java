@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onBtnStartGame(View view) {
-        Intent intent = new Intent(this, GameActivity.class);
+        Intent intent = new Intent(this, FruitJumperActivity.class);
         startActivity(intent);
     }
 }

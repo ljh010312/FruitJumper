@@ -1,8 +1,10 @@
-package kr.ac.tukorea.ge.and.leejunho3288.fruitjumper;
+package kr.ac.tukorea.ge.and.leejunho3288.fruitjumper.game;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.RectF;
+
+import kr.ac.tukorea.ge.spgp2025.a2dg.framework.interfaces.IGameObject;
 
 public class ImageObject implements IGameObject {
     private final Bitmap bitmap;

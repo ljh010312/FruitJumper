@@ -1,9 +1,12 @@
-package kr.ac.tukorea.ge.and.leejunho3288.fruitjumper;
+package kr.ac.tukorea.ge.and.leejunho3288.fruitjumper.game;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.RectF;
 import android.view.MotionEvent;
+
+import kr.ac.tukorea.ge.spgp2025.a2dg.framework.interfaces.IGameObject;
+import kr.ac.tukorea.ge.spgp2025.a2dg.framework.view.Metrics;
 
 public class ButtonObject implements IGameObject {
     private final RectF rect;
