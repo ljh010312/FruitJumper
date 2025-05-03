@@ -4,13 +4,14 @@ import android.graphics.Bitmap;
 import android.view.MotionEvent;
 
 import kr.ac.tukorea.ge.and.leejunho3288.fruitjumper.R;
+import kr.ac.tukorea.ge.spgp2025.a2dg.framework.objects.VertScrollBackground;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.res.BitmapPool;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.scene.Scene;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.view.Metrics;
 
 public class MainScene extends Scene {
     public enum Layer {
-        background, enemy, player, controller;
+        background, platform, enemy, player, controller;
         public static final int COUNT = values().length;
     }
     private final Player player;
@@ -21,38 +22,62 @@ public class MainScene extends Scene {
     public MainScene() {
         Metrics.setGameSize(1600, 900);
         initLayers(Layer.COUNT);
+
         this.player = new Player();
         add(Layer.player, player);
+
+        ButtonObject[] buttons = initButtons();
+        leftButton = buttons[0];
+        rightButton = buttons[1];
+        jumpButton = buttons[2];
+
+        add(Layer.background, new VertScrollBackground(R.mipmap.background_brown, 40));
+
+        addFloorPlatforms(); // 여기서 바닥 플랫폼 생성
+
+        // Moving obstacle
+        add(Layer.enemy, new MovingObstacle(MovingObstacle.Direction.VERTICAL, 200f, 2f, 500f, 200f));
+    }
+
+    private void addFloorPlatforms() {
+        float startX = 50f;
+        float endX = 1550f;
+        float platformWidth = 100f;
+        float platformHeight = 100f;
+        float y = 850f;
+
+        for (float x = startX; x <= endX; x += platformWidth) {
+            add(Layer.platform, new Platform(x, y, platformWidth, platformHeight));
+        }
+    }
+
+    private ButtonObject[] initButtons() {
         Bitmap leftBtnBitmap = BitmapPool.get(R.mipmap.button_play_inverse);
         Bitmap leftPressedBtnBitmap = BitmapPool.get(R.mipmap.button_play_pressed_inverse);
         Bitmap rightBtnBitmap = BitmapPool.get(R.mipmap.button_play);
         Bitmap rightPressedBtnBitmap = BitmapPool.get(R.mipmap.button_play_pressed);
         Bitmap jumpBtnBitmap = BitmapPool.get(R.mipmap.button_jump);
         Bitmap jumpPressedBtnBitmap = BitmapPool.get(R.mipmap.button_jump_pressed);
-        leftButton = new ButtonObject(
-                leftBtnBitmap,
-                leftPressedBtnBitmap,
-                200, 700, 350, 850,
-                () -> {}
-        );
-        add(Layer.controller, leftButton);
-        rightButton = new ButtonObject(
-                rightBtnBitmap,
-                rightPressedBtnBitmap,
-                350, 700, 500, 850,
-                () -> {}
-        );
-        add(Layer.controller, rightButton);
-        jumpButton = new ButtonObject(
-                jumpBtnBitmap,
-                jumpPressedBtnBitmap,
-                1300, 700, 1500, 825,
-                () -> {}
-        );
-        add(Layer.controller, jumpButton);
 
-        // Moving obstacle
-        add(Layer.enemy, new MovingObstacle(MovingObstacle.Direction.VERTICAL, 200f, 2f, 500f, 200f));
+        ButtonObject left = new ButtonObject(
+                leftBtnBitmap, leftPressedBtnBitmap,
+                200, 700, 350, 850, () -> {}
+        );
+        add(Layer.controller, left);
+
+        ButtonObject right = new ButtonObject(
+                rightBtnBitmap, rightPressedBtnBitmap,
+                350, 700, 500, 850, () -> {}
+        );
+        add(Layer.controller, right);
+
+        ButtonObject jump = new ButtonObject(
+                jumpBtnBitmap, jumpPressedBtnBitmap,
+                1300, 700, 1500, 825, () -> {}
+        );
+        add(Layer.controller, jump);
+
+        return new ButtonObject[] { left, right, jump };
     }
 
     // Game Loop Functions
