@@ -9,6 +9,10 @@ import kr.ac.tukorea.ge.spgp2025.a2dg.framework.scene.Scene;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.view.Metrics;
 
 public class MainScene extends Scene {
+    public enum Layer {
+        background, enemy, player, controller;
+        public static final int COUNT = values().length;
+    }
     private final Player player;
     private final ButtonObject leftButton;
     private final ButtonObject rightButton;
@@ -16,9 +20,9 @@ public class MainScene extends Scene {
 
     public MainScene() {
         Metrics.setGameSize(1600, 900);
+        initLayers(Layer.COUNT);
         this.player = new Player();
-        add(player);
-
+        add(Layer.player, player);
         Bitmap leftBtnBitmap = BitmapPool.get(R.mipmap.button_play_inverse);
         Bitmap leftPressedBtnBitmap = BitmapPool.get(R.mipmap.button_play_pressed_inverse);
         Bitmap rightBtnBitmap = BitmapPool.get(R.mipmap.button_play);
@@ -31,24 +35,24 @@ public class MainScene extends Scene {
                 200, 700, 350, 850,
                 () -> {}
         );
-        add(leftButton);
+        add(Layer.controller, leftButton);
         rightButton = new ButtonObject(
                 rightBtnBitmap,
                 rightPressedBtnBitmap,
                 350, 700, 500, 850,
                 () -> {}
         );
-        add(rightButton);
+        add(Layer.controller, rightButton);
         jumpButton = new ButtonObject(
                 jumpBtnBitmap,
                 jumpPressedBtnBitmap,
                 1300, 700, 1500, 825,
                 () -> {}
         );
-        add(jumpButton);
+        add(Layer.controller, jumpButton);
 
         // Moving obstacle
-        add(new MovingObstacle(MovingObstacle.Direction.VERTICAL, 200f, 2f, 500f, 200f));
+        add(Layer.enemy, new MovingObstacle(MovingObstacle.Direction.VERTICAL, 200f, 2f, 500f, 200f));
     }
 
     // Game Loop Functions

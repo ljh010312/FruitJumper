@@ -11,11 +11,15 @@ import kr.ac.tukorea.ge.spgp2025.a2dg.framework.view.Metrics;
 public class StartScene extends Scene {
     private static final String TAG = StartScene.class.getSimpleName();
     private final ButtonObject startButton;
-
+    public enum Layer {
+        background, enemy, player, controller;
+        public static final int COUNT = values().length;
+    }
     public StartScene() {
         Metrics.setGameSize(1600, 900);
+        initLayers(Layer.COUNT);
         Bitmap image = BitmapPool.get(R.mipmap.start_fruit_jumper);
-        add(new ImageObject(image, 0, 0, Metrics.width, Metrics.height));
+        add(Layer.background, new ImageObject(image, 0, 0, Metrics.width, Metrics.height));
         Bitmap btnBitmap = BitmapPool.get(R.mipmap.button_play);
         Bitmap pressedBtnBitmap = BitmapPool.get(R.mipmap.button_play_pressed);
         startButton = new ButtonObject(
@@ -24,7 +28,7 @@ public class StartScene extends Scene {
                 700, 600, 900, 800,
                 () -> new MainScene().push()
         );
-        add(startButton);
+        add(Layer.controller, startButton);
 
     }
 

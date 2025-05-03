@@ -64,7 +64,7 @@ public class MovingObstacle extends AnimSprite implements IBoxCollidable, IRecyc
     }
 
     @Override
-    public void recycle() {
+    public void onRecycle() {
         // 필요 시 오브젝트 재사용 처리
     }
 }
