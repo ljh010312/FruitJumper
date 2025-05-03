@@ -46,6 +46,8 @@ public class MainScene extends Scene {
                 () -> {}
         );
         add(jumpButton);
+
+        // Moving obstacle
         add(new MovingObstacle(MovingObstacle.Direction.VERTICAL, 200f, 2f, 500f, 200f));
     }
 
