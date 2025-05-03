@@ -46,6 +46,7 @@ public class MainScene extends Scene {
                 () -> {}
         );
         add(jumpButton);
+        add(new MovingObstacle(MovingObstacle.Direction.VERTICAL, 200f, 2f, 500f, 200f));
     }
 
     // Game Loop Functions
