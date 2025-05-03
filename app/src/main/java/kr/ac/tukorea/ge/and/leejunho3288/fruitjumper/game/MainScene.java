@@ -12,6 +12,7 @@ public class MainScene extends Scene {
     private final Player player;
     private final ButtonObject leftButton;
     private final ButtonObject rightButton;
+    private final ButtonObject jumpButton;
 
     public MainScene() {
         Metrics.setGameSize(1600, 900);
@@ -22,6 +23,8 @@ public class MainScene extends Scene {
         Bitmap leftPressedBtnBitmap = BitmapPool.get(R.mipmap.button_play_pressed_inverse);
         Bitmap rightBtnBitmap = BitmapPool.get(R.mipmap.button_play);
         Bitmap rightPressedBtnBitmap = BitmapPool.get(R.mipmap.button_play_pressed);
+        Bitmap jumpBtnBitmap = BitmapPool.get(R.mipmap.button_jump);
+        Bitmap jumpPressedBtnBitmap = BitmapPool.get(R.mipmap.button_jump_pressed);
         leftButton = new ButtonObject(
                 leftBtnBitmap,
                 leftPressedBtnBitmap,
@@ -36,6 +39,13 @@ public class MainScene extends Scene {
                 () -> {}
         );
         add(rightButton);
+        jumpButton = new ButtonObject(
+                jumpBtnBitmap,
+                jumpPressedBtnBitmap,
+                1300, 700, 1500, 825,
+                () -> {}
+        );
+        add(jumpButton);
     }
 
     // Game Loop Functions
@@ -53,6 +63,7 @@ public class MainScene extends Scene {
     public boolean onTouchEvent(MotionEvent event) {
         leftButton.handleTouch(event);
         rightButton.handleTouch(event);
+        jumpButton.handleTouch(event);
         return true;
     }
 }
