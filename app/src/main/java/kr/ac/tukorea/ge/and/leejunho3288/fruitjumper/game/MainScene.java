@@ -44,7 +44,16 @@ public class MainScene extends Scene {
         add(Layer.touch, new Button(R.mipmap.button_jump, R.mipmap.button_jump_pressed, 1300f, 700f, 200f, 125f, new Button.OnTouchListener() {
             @Override
             public boolean onTouch(boolean pressed) {
-                player.jump();
+                if (!pressed) player.jump(); // 손 뗄 때 점프
+                return true;
+            }
+        }));
+
+
+        add(Layer.touch, new Button(R.mipmap.button_jump, R.mipmap.button_jump_pressed, 1300f, 300f, 200f, 125f, new Button.OnTouchListener() {
+            @Override
+            public boolean onTouch(boolean pressed) {
+                player.hit();
                 return false;
             }
         }));

@@ -23,10 +23,17 @@ public class Player extends AnimSprite implements IBoxCollidable {
     private boolean isOnGround = false;
     private static final float JUMP_POWER = 750f;
     private boolean hasDoubleJumped = false;
+    private static final float HIT_DURATION = 0.35f; // 7프레임 / 20fps = 0.35초
+    private float hitElapsedTime = 0f; // hit 애니메이션 시간 누적
+    private boolean invincible = false;
+    private float invincibleTime = 0f;
+    private static final float INVINCIBLE_DURATION = 1.0f; // hit 상태 포함 1초간 무적
+
+
     public enum State {
-        idle, move, jump, doubleJump, fall
+        idle, move, jump, doubleJump, fall, hit
     }
-    protected State state = State.fall;
+    protected State state = State.idle;
 
     public Player(){
         super(R.mipmap.player_idle, 20, 11);
@@ -40,47 +47,60 @@ public class Player extends AnimSprite implements IBoxCollidable {
     public void update() {
         float deltaTime = GameView.frameTime;
 
-        switch (state) {
-            case jump:
-            case doubleJump:
-            case fall:            // 중력 적용
-                velocityY += GRAVITY * deltaTime;
-                y += velocityY * deltaTime;
-
-                // 충돌 판정
-                Platform landedPlatform = checkLanding();
-                if (landedPlatform != null) {
-                    // 바닥에 착지한 경우
-                    y = landedPlatform.getCollisionRect().top - PLAYER_WIDTH_HEIGHT / 2f;
-                    velocityY = 0f;
-                    isOnGround = true;
-
-                    if (state == State.fall || state == State.jump) {
-                        setState(moveDir != 0 ? State.move : State.idle);
-                    }
-                } else {
-                    // 공중 상태
-                    if (!isOnGround) {
-                        if (velocityY > 0 && state != State.fall) {
-                            setState(State.fall);
-                        }
-                    }
-                    isOnGround = false;
-                }
-                // 좌우 이동
-                if (moveDir != 0) {
-                    x += moveDir * SPEED * deltaTime;
-                }
-                break;
-            case move:
-                x += moveDir * SPEED * deltaTime;
-                break;
+        // 무적 시간 업데이트
+        if (invincible) {
+            invincibleTime += deltaTime;
+            if (invincibleTime >= INVINCIBLE_DURATION) {
+                invincible = false;
+            }
         }
+
+        if (state == State.hit) {
+            hitElapsedTime += deltaTime;
+            if (hitElapsedTime >= HIT_DURATION) {
+                setState(State.idle);
+            }
+            return; // hit 중엔 다른 로직 무시
+        }
+
+        // 중력 적용
+        velocityY += GRAVITY * deltaTime;
+        y += velocityY * deltaTime;
+
+        // 충돌 판정
+        Platform landedPlatform = checkLanding();
+        if (landedPlatform != null) {
+            // 바닥에 착지한 경우
+            y = landedPlatform.getCollisionRect().top - PLAYER_WIDTH_HEIGHT / 2f;
+            velocityY = 0f;
+            isOnGround = true;
+
+            if (state == State.fall || state == State.jump) {
+                setState(moveDir != 0 ? State.move : State.idle);
+            }
+        } else {
+            // 공중 상태
+            if (!isOnGround) {
+                if (velocityY > 0 && state != State.fall) {
+                    setState(State.fall);
+                }
+            }
+            isOnGround = false;
+        }
+
+        // 좌우 이동
+        if (moveDir != 0) {
+            x += moveDir * SPEED * deltaTime;
+        }
+
         setPosition(x, y, PLAYER_WIDTH_HEIGHT, PLAYER_WIDTH_HEIGHT);
         updateCollisionRect();
     }
 
     private void setState(State newState) {
+        if (this.state == newState) return;
+
+
         this.state = newState;
         updateCollisionRect();
 
@@ -99,6 +119,12 @@ public class Player extends AnimSprite implements IBoxCollidable {
                 break;
             case fall:
                 setImageResourceId(R.mipmap.player_fall, 20, 1);
+                break;
+            case hit:
+                setImageResourceId(R.mipmap.player_hit, 20, 7);
+                hitElapsedTime = 0f;
+                invincible = true;
+                invincibleTime = 0f;
                 break;
         }
     }
@@ -144,6 +170,18 @@ public class Player extends AnimSprite implements IBoxCollidable {
             setState(State.doubleJump);
         }
     }
+
+    public void hit(){
+        if (isInvincible())
+            return;
+        setState(State.hit);
+    }
+
+    // 무적인지 확인
+    public boolean isInvincible() {
+        return invincible;
+    }
+
     private Platform checkLanding() {
         float footY = collisionRect.bottom;
 
