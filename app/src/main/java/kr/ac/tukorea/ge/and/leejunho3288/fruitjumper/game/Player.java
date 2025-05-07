@@ -13,7 +13,13 @@ public class Player extends AnimSprite implements IBoxCollidable {
     private static final float SPEED = 300f;
     private static final float PLAYER_WIDTH_HEIGHT = 100f;
     private float x, y;
+    private int moveDir;
     private RectF collisionRect = new RectF();
+
+    public enum State {
+        idle, move, jump
+    }
+    protected State state = State.idle;
 
     public Player(){
         super(R.mipmap.player_idle, 20, 11);
@@ -23,21 +29,46 @@ public class Player extends AnimSprite implements IBoxCollidable {
         updateCollisionRect();
     }
 
-    public void moveLeft() {
-        x -= SPEED * GameView.frameTime;
-        setPosition(x, y, PLAYER_WIDTH_HEIGHT, PLAYER_WIDTH_HEIGHT);
+    @Override
+    public void update() {
+        switch (state) {
+            case jump:
+                break;
+            case move:
+                x += moveDir * SPEED * GameView.frameTime;
+                setPosition(x, y, PLAYER_WIDTH_HEIGHT, PLAYER_WIDTH_HEIGHT);
+                updateCollisionRect();
+                break;
+        }
+    }
+
+    private void setState(State state) {
+        this.state = state;
         updateCollisionRect();
+    }
+    public void moveLeft() {
+        if (state == State.idle){
+            state = State.move;
+            moveDir = -1;
+        }
+        else if (state == State.move){
+            moveDir = -1;
+        }
     }
 
     public void moveRight() {
-        x += SPEED * GameView.frameTime;
-        setPosition(x, y, PLAYER_WIDTH_HEIGHT, PLAYER_WIDTH_HEIGHT);
-        updateCollisionRect();
+        if (state == State.idle){
+            state = State.move;
+            moveDir = 1;
+        }
+        else if (state == State.move){
+            moveDir = 1;
+        }
     }
 
     private void updateCollisionRect() {
         collisionRect.set(dstRect);
-        collisionRect.inset(20f, 0f); // 조금 작게 설정
+        collisionRect.inset(20f, 0f);
     }
 
     @Override
