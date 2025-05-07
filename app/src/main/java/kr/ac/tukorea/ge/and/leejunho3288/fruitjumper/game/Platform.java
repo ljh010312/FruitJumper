@@ -8,24 +8,24 @@ import kr.ac.tukorea.ge.and.leejunho3288.fruitjumper.R;
 
 public class Platform extends Sprite implements IBoxCollidable {
     public enum Type {
-        SOLID,      // 모든 방향 충돌
-        ONE_WAY     // 아래에서 위로는 통과, 위에서 아래는 충돌
+        SOLID, ONE_WAY;
     }
 
     private final Type type;
+    private final RectF collisionRect = new RectF();
 
-    public Platform(int mipmapResId, float x, float y, float width, float height, Type type) {
-        super(mipmapResId);
-        setPosition(x, y, width, height);
+    public Platform(int bitmapResId, float left, float top, float width, float height, Type type) {
+        super(bitmapResId, left + width / 2, top + height / 2, width, height);
         this.type = type;
+        collisionRect.set(dstRect); // 기본 충돌 박스
+    }
+
+    public boolean canPassFromBelow() {
+        return type == Type.ONE_WAY;
     }
 
     @Override
     public RectF getCollisionRect() {
-        return dstRect;
-    }
-
-    public Type getType() {
-        return type;
+        return collisionRect;
     }
 }

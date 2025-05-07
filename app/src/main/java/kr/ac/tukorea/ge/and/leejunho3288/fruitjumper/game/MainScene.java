@@ -44,14 +44,15 @@ public class MainScene extends Scene {
         add(Layer.touch, new Button(R.mipmap.button_jump, R.mipmap.button_jump_pressed, 1300f, 700f, 200f, 125f, new Button.OnTouchListener() {
             @Override
             public boolean onTouch(boolean pressed) {
-                return true;
+                player.jump();
+                return false;
             }
         }));
 
 
         add(Layer.background, new VertScrollBackground(R.mipmap.background_brown, 40));
 
-        //addFloorPlatforms();
+        addFloorPlatforms();
         //addOneWayPlatforms();
 
         // Moving obstacle
@@ -59,8 +60,8 @@ public class MainScene extends Scene {
     }
 
     private void addFloorPlatforms() {
-        float startX = 50f;
-        float endX = 1550f;
+        float startX = 0f;
+        float endX = 1600f;
         float platformWidth = 100f;
         float platformHeight = 100f;
         float y = 850f;
