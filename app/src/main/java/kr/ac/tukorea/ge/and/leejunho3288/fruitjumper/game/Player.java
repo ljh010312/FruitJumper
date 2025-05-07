@@ -28,6 +28,10 @@ public class Player extends AnimSprite implements IBoxCollidable {
     private boolean invincible = false;
     private float invincibleTime = 0f;
     private static final float INVINCIBLE_DURATION = 1.0f; // hit 상태 포함 1초간 무적
+    private int maxHp = 5;
+    private int hp = 5;
+
+
 
 
     public enum State {
@@ -163,7 +167,17 @@ public class Player extends AnimSprite implements IBoxCollidable {
     public void hit(){
         if (isInvincible())
             return;
+        hp = Math.max(hp - 1, 0);
+        HealthHud.get().setHp(hp, maxHp); // ← 여기에서 HUD 자동 업데이트
         setState(State.hit);
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public int getMaxHp() {
+        return maxHp;
     }
 
     // 무적인지 확인
