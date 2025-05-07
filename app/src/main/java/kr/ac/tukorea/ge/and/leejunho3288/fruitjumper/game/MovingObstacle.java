@@ -25,7 +25,7 @@ public class MovingObstacle extends AnimSprite implements IBoxCollidable, IRecyc
     private final RectF collisionRect = new RectF();
 
     public MovingObstacle(Direction direction, float range, float speed, float startX, float startY) {
-        super(R.mipmap.obstacle_blink, 10, 4);
+        super(R.mipmap.obstacle_blink, 4, 4);
         this.direction = direction;
         this.range = range;
         this.speed = speed;

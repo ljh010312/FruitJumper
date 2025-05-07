@@ -78,7 +78,7 @@ public class Player extends AnimSprite implements IBoxCollidable {
         checkPlatformCollision(deltaTime);
 
         // 낙하 상태 진입 판단
-        if (!isOnGround && velocityY > 0 && state != State.fall && state != State.jump && state != State.doubleJump) {
+        if (!isOnGround && velocityY > 0 && state != State.fall && state != State.jump ) {
             setState(State.fall);
         }
 
