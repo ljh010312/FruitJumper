@@ -63,6 +63,9 @@ public class Player extends AnimSprite implements IBoxCollidable {
             return; // hit 중엔 다른 로직 무시
         }
 
+        // 항상 먼저 땅 위가 아니라고 가정 → 충돌 시 다시 true로 됨
+        isOnGround = false;
+
         // 중력 적용
         velocityY += GRAVITY * deltaTime;
         y += velocityY * deltaTime;
@@ -73,6 +76,11 @@ public class Player extends AnimSprite implements IBoxCollidable {
         }
 
         checkPlatformCollision(deltaTime);
+
+        // 낙하 상태 진입 판단
+        if (!isOnGround && velocityY > 0 && state != State.fall && state != State.jump && state != State.doubleJump) {
+            setState(State.fall);
+        }
 
         setPosition(x, y, PLAYER_WIDTH_HEIGHT, PLAYER_WIDTH_HEIGHT);
         updateCollisionRect();
