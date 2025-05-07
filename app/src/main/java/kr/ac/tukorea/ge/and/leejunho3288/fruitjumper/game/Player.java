@@ -67,6 +67,13 @@ public class Player extends AnimSprite implements IBoxCollidable {
         velocityY += GRAVITY * deltaTime;
         y += velocityY * deltaTime;
 
+        // 좌우 이동
+        if (moveDir != 0) {
+            x += moveDir * SPEED * deltaTime;
+        }
+
+        checkPlatformCollision(deltaTime);
+
         // 충돌 판정
         Platform landedPlatform = checkLanding();
         if (landedPlatform != null) {
@@ -88,10 +95,7 @@ public class Player extends AnimSprite implements IBoxCollidable {
             isOnGround = false;
         }
 
-        // 좌우 이동
-        if (moveDir != 0) {
-            x += moveDir * SPEED * deltaTime;
-        }
+
 
         setPosition(x, y, PLAYER_WIDTH_HEIGHT, PLAYER_WIDTH_HEIGHT);
         updateCollisionRect();
@@ -180,6 +184,49 @@ public class Player extends AnimSprite implements IBoxCollidable {
     // 무적인지 확인
     public boolean isInvincible() {
         return invincible;
+    }
+    private void checkPlatformCollision(float deltaTime) {
+        for (IGameObject obj : Scene.top().objectsAt(MainScene.Layer.platform)) {
+            if (!(obj instanceof Platform)) continue;
+            Platform platform = (Platform) obj;
+
+            RectF platRect = platform.getCollisionRect();
+            RectF nextRect = new RectF(collisionRect);
+            nextRect.offset(moveDir * SPEED * deltaTime, velocityY * deltaTime);
+
+            if (!RectF.intersects(nextRect, platRect)) continue;
+
+            if (platform.canPassFromBelow()) {
+                // 아래에서 위로 통과 허용
+                if (velocityY < 0 && collisionRect.bottom <= platRect.top) continue;
+            }
+
+            // 플랫폼과 충돌 처리
+            // 수직 충돌
+            if (collisionRect.bottom <= platRect.top && velocityY > 0) {
+                // 아래로 떨어질 때 바닥 충돌
+                y = platRect.top - PLAYER_WIDTH_HEIGHT / 2f;
+                velocityY = 0;
+                isOnGround = true;
+                if (state == State.fall || state == State.jump || state == State.doubleJump) {
+                    setState(moveDir != 0 ? State.move : State.idle);
+                }
+            } else if (collisionRect.top >= platRect.bottom && velocityY < 0) {
+                // 위로 점프하다가 천장 충돌
+                y = platRect.bottom + PLAYER_WIDTH_HEIGHT / 2f;
+                velocityY = 0;
+            } else {
+                // 수평 충돌
+                if (moveDir > 0 && collisionRect.right <= platRect.left) {
+                    x = platRect.left - PLAYER_WIDTH_HEIGHT / 2f;
+                } else if (moveDir < 0 && collisionRect.left >= platRect.right) {
+                    x = platRect.right + PLAYER_WIDTH_HEIGHT / 2f;
+                }
+            }
+
+            setPosition(x, y, PLAYER_WIDTH_HEIGHT, PLAYER_WIDTH_HEIGHT);
+            updateCollisionRect();
+        }
     }
 
     private Platform checkLanding() {

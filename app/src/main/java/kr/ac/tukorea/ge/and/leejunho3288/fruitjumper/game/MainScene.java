@@ -78,6 +78,12 @@ public class MainScene extends Scene {
         for (float x = startX; x <= endX; x += platformWidth) {
             add(Layer.platform, new Platform(R.mipmap.ground, x, y, platformWidth, platformHeight,Platform.Type.SOLID));
         }
+
+        y = 600f;
+        endX = 1000;
+        for (float x = startX; x <= endX; x += platformWidth) {
+            add(Layer.platform, new Platform(R.mipmap.ground, x, y, platformWidth, platformHeight,Platform.Type.SOLID));
+        }
     }
     private void addOneWayPlatforms() {
         float platformWidth = 100f;
