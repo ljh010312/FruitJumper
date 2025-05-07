@@ -68,7 +68,9 @@ public class MainScene extends Scene {
         add(Layer.enemy, new MovingObstacle(MovingObstacle.Direction.VERTICAL, 200f, 2f, 500f, 200f));
 
         add(Layer.fruit, new Fruit(Fruit.Type.BANANA, 800f, 700f, 64f, 64.f));
-
+        add(Layer.fruit, new Fruit(Fruit.Type.APPLE, 1000f, 700f, 64f, 64.f));
+        add(Layer.fruit, new Fruit(Fruit.Type.ORANGE, 1200f, 700f, 64f, 64.f));
+        add(Layer.controller, FruitHud.get());
         add(Layer.controller, new CollisionChecker(this, player));
     }
 
