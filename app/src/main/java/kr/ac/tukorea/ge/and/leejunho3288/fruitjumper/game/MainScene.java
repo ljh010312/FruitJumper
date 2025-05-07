@@ -13,7 +13,7 @@ import kr.ac.tukorea.ge.spgp2025.a2dg.framework.view.Metrics;
 
 public class MainScene extends Scene {
     public enum Layer {
-        background, platform, enemy, player, touch;
+        background, platform, enemy, player, touch, controller;
         public static final int COUNT = values().length;
     }
     private final Player player;
@@ -65,7 +65,9 @@ public class MainScene extends Scene {
         addOneWayPlatforms();
 
         // Moving obstacle
-        //add(Layer.enemy, new MovingObstacle(MovingObstacle.Direction.VERTICAL, 200f, 2f, 500f, 200f));
+        add(Layer.enemy, new MovingObstacle(MovingObstacle.Direction.VERTICAL, 200f, 2f, 500f, 200f));
+
+        add(Layer.controller, new CollisionChecker(this, player));
     }
 
     private void addFloorPlatforms() {
