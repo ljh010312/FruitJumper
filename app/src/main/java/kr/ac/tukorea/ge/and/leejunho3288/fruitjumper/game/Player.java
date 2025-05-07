@@ -74,29 +74,6 @@ public class Player extends AnimSprite implements IBoxCollidable {
 
         checkPlatformCollision(deltaTime);
 
-        // 충돌 판정
-        Platform landedPlatform = checkLanding();
-        if (landedPlatform != null) {
-            // 바닥에 착지한 경우
-            y = landedPlatform.getCollisionRect().top - PLAYER_WIDTH_HEIGHT / 2f;
-            velocityY = 0f;
-            isOnGround = true;
-
-            if (state == State.fall || state == State.jump) {
-                setState(moveDir != 0 ? State.move : State.idle);
-            }
-        } else {
-            // 공중 상태
-            if (!isOnGround) {
-                if (velocityY > 0 && state != State.fall) {
-                    setState(State.fall);
-                }
-            }
-            isOnGround = false;
-        }
-
-
-
         setPosition(x, y, PLAYER_WIDTH_HEIGHT, PLAYER_WIDTH_HEIGHT);
         updateCollisionRect();
     }
@@ -189,22 +166,29 @@ public class Player extends AnimSprite implements IBoxCollidable {
         for (IGameObject obj : Scene.top().objectsAt(MainScene.Layer.platform)) {
             if (!(obj instanceof Platform)) continue;
             Platform platform = (Platform) obj;
-
             RectF platRect = platform.getCollisionRect();
+
+            // ONE_WAY 플랫폼은 수평/상단 충돌 무시
+            if (platform.canPassFromBelow()) {
+                // 1. 바닥 충돌만 허용
+                boolean falling = velocityY > 0;
+                boolean abovePlatform = collisionRect.bottom <= platRect.top;
+                boolean willLand = collisionRect.bottom + velocityY * deltaTime >= platRect.top;
+
+                if (!(falling && abovePlatform && willLand)) {
+                    continue; // 아래에서 위로 진입 중이 아니면 무시
+                }
+            }
+
+            // 충돌 체크
             RectF nextRect = new RectF(collisionRect);
             nextRect.offset(moveDir * SPEED * deltaTime, velocityY * deltaTime);
 
             if (!RectF.intersects(nextRect, platRect)) continue;
 
-            if (platform.canPassFromBelow()) {
-                // 아래에서 위로 통과 허용
-                if (velocityY < 0 && collisionRect.bottom <= platRect.top) continue;
-            }
-
-            // 플랫폼과 충돌 처리
             // 수직 충돌
             if (collisionRect.bottom <= platRect.top && velocityY > 0) {
-                // 아래로 떨어질 때 바닥 충돌
+                // 아래로 낙하 중 바닥에 충돌
                 y = platRect.top - PLAYER_WIDTH_HEIGHT / 2f;
                 velocityY = 0;
                 isOnGround = true;
@@ -212,15 +196,19 @@ public class Player extends AnimSprite implements IBoxCollidable {
                     setState(moveDir != 0 ? State.move : State.idle);
                 }
             } else if (collisionRect.top >= platRect.bottom && velocityY < 0) {
-                // 위로 점프하다가 천장 충돌
-                y = platRect.bottom + PLAYER_WIDTH_HEIGHT / 2f;
-                velocityY = 0;
+                // 천장에 머리 부딪힘
+                if (!platform.canPassFromBelow()) { // SOLID만 막음
+                    y = platRect.bottom + PLAYER_WIDTH_HEIGHT / 2f;
+                    velocityY = 0;
+                }
             } else {
-                // 수평 충돌
-                if (moveDir > 0 && collisionRect.right <= platRect.left) {
-                    x = platRect.left - PLAYER_WIDTH_HEIGHT / 2f;
-                } else if (moveDir < 0 && collisionRect.left >= platRect.right) {
-                    x = platRect.right + PLAYER_WIDTH_HEIGHT / 2f;
+                // 좌우 충돌 - ONE_WAY는 무시, SOLID만 막음
+                if (!platform.canPassFromBelow()) {
+                    if (moveDir > 0 && collisionRect.right <= platRect.left) {
+                        x += -1 * SPEED * deltaTime;
+                    } else if (moveDir < 0 && collisionRect.left >= platRect.right) {
+                        x += 1 * SPEED * deltaTime;
+                    }
                 }
             }
 
@@ -228,26 +216,6 @@ public class Player extends AnimSprite implements IBoxCollidable {
             updateCollisionRect();
         }
     }
-
-    private Platform checkLanding() {
-        float footY = collisionRect.bottom;
-
-        for (IGameObject obj : Scene.top().objectsAt(MainScene.Layer.platform)) {
-            if (!(obj instanceof Platform)) continue;
-            Platform platform = (Platform) obj;
-
-            RectF rect = platform.getCollisionRect();
-            if (rect.left <= x && x <= rect.right) {
-                if (footY <= rect.top && footY + velocityY * GameView.frameTime >= rect.top) {
-                    if (platform.canPassFromBelow() && velocityY < 0) continue;
-                    return platform;
-                }
-            }
-        }
-
-        return null;
-    }
-
 
     private void updateCollisionRect() {
         collisionRect.set(dstRect);
