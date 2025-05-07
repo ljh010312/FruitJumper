@@ -12,7 +12,7 @@ public class StartScene extends Scene {
     private static final String TAG = StartScene.class.getSimpleName();
     private final ButtonObject startButton;
     public enum Layer {
-        background, enemy, player, controller;
+        background, controller;
         public static final int COUNT = values().length;
     }
     public StartScene() {

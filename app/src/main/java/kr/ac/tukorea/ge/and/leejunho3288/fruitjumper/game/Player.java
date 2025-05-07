@@ -32,12 +32,14 @@ public class Player extends AnimSprite implements IBoxCollidable {
     @Override
     public void update() {
         switch (state) {
-            case jump:
+            case idle:
                 break;
             case move:
                 x += moveDir * SPEED * GameView.frameTime;
                 setPosition(x, y, PLAYER_WIDTH_HEIGHT, PLAYER_WIDTH_HEIGHT);
                 updateCollisionRect();
+                break;
+            case jump:
                 break;
         }
     }
@@ -46,23 +48,26 @@ public class Player extends AnimSprite implements IBoxCollidable {
         this.state = state;
         updateCollisionRect();
     }
-    public void moveLeft() {
-        if (state == State.idle){
-            state = State.move;
+    public void moveLeft(boolean startMove) {
+        if (state == State.idle && startMove) {
+            setState(State.move);
             moveDir = -1;
+            return;
         }
-        else if (state == State.move){
-            moveDir = -1;
+        if (state == State.move && !startMove) {
+            setState(State.idle);
+            //return;
         }
     }
 
-    public void moveRight() {
-        if (state == State.idle){
-            state = State.move;
+    public void moveRight(boolean startMove) {
+        if (state == State.idle && startMove) {
+            setState(State.move);
             moveDir = 1;
+            return;
         }
-        else if (state == State.move){
-            moveDir = 1;
+        if (state == State.move && !startMove) {
+            setState(State.idle);
         }
     }
 
