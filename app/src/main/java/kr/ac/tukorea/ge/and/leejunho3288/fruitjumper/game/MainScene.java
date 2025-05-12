@@ -62,15 +62,17 @@ public class MainScene extends Scene {
 
         // Moving obstacle
         add(Layer.enemy, new MovingObstacle(MovingObstacle.Direction.VERTICAL, 200f, 2f, 500f, 200f));
-        add(Layer.enemy, new Spike(600f, 830f, 64f, 32f)); // x, y, width, height
+        add(Layer.enemy, new MovingObstacle(MovingObstacle.Direction.HORIZONTAL, 200f, 2f, 1000f, 200f));
+        add(Layer.enemy, new Spike(1600f, 830f, 64f, 32f)); // x, y, width, height
+        add(Layer.enemy, new Spike(1664f, 830f, 64f, 32f)); // x, y, width, height
 
 
-        add(Layer.fruit, new Fruit(Fruit.Type.BANANA, 800f, 700f, 64f, 64.f));
-        add(Layer.fruit, new Fruit(Fruit.Type.APPLE, 1000f, 700f, 64f, 64.f));
-        add(Layer.fruit, new Fruit(Fruit.Type.ORANGE, 1200f, 700f, 64f, 64.f));
+        add(Layer.fruit, new Fruit(Fruit.Type.BANANA, 100f, 700f, 64f, 64.f));
+        add(Layer.fruit, new Fruit(Fruit.Type.APPLE, 1300f, 300f, 64f, 64.f));
+        add(Layer.fruit, new Fruit(Fruit.Type.ORANGE, 2700f, 700f, 64f, 64.f));
         add(Layer.controller, FruitHud.get());
         add(Layer.controller, HealthHud.get());
-        add(Layer.checkpoint, new Checkpoint(1500, 800, 100, 100));
+        add(Layer.checkpoint, new Checkpoint(2900, 800, 100, 100));
 
         add(Layer.controller, new CollisionChecker(this, player));
 
@@ -79,7 +81,7 @@ public class MainScene extends Scene {
 
     private void addFloorPlatforms() {
         float startX = 0f;
-        float endX = 1600f;
+        float endX = 3000f;
         float platformWidth = 100f;
         float platformHeight = 100f;
         float y = 850f;
@@ -89,10 +91,11 @@ public class MainScene extends Scene {
         }
 
         y = 600f;
-        endX = 1000;
+        endX = 500f;
         for (float x = startX; x <= endX; x += platformWidth) {
             add(Layer.platform, new Platform(R.mipmap.ground, x, y, platformWidth, platformHeight, Platform.Type.SOLID));
         }
+
     }
 
     private void addOneWayPlatforms() {
