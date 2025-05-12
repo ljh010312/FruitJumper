@@ -87,7 +87,7 @@
 없음
 
 ## MainScene에 등장하는 오브젝트
-![스크린샷 2025-05-12 225536](https://github.com/user-attachments/assets/80c2ff5b-08ec-4fe1-85ba-9871ec3ac9ca)
+![스크린샷 2025-05-12 225536](https://github.com/user-attachments/assets/0d7094ca-93e4-4705-b707-46fe58104981)
 ![스크린샷 2025-05-12 222049](https://github.com/user-attachments/assets/36c3c9a8-804d-4acc-9536-6399b6f14e6c)
 
 | 클래스 이름             | 구성 정보                                                         | 상호작용 정보                             | 핵심 역할 및 코드 설명                                                            |
