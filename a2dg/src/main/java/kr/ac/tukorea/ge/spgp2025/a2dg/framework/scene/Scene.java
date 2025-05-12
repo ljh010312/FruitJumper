@@ -154,8 +154,10 @@ public class Scene {
             for (ArrayList<IGameObject> gameObjects : layers) {
                 for (IGameObject gobj : gameObjects) {
                     if (gobj instanceof IBoxCollidable) {
-                        RectF rect = ((IBoxCollidable) gobj).getCollisionRect();
-                        canvas.drawRect(rect, bboxPaint);
+                        RectF worldRect = ((IBoxCollidable) gobj).getCollisionRect();
+                        RectF screenRect = new RectF(worldRect);
+                        screenRect.offset(-Metrics.cameraX, 0); // 카메라 보정
+                        canvas.drawRect(screenRect, bboxPaint);
                     }
                 }
             }

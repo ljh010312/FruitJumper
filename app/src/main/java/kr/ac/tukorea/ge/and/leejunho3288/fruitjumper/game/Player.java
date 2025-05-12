@@ -251,14 +251,24 @@ public class Player extends AnimSprite implements IBoxCollidable {
 
     @Override
     public void draw(Canvas canvas) {
+        long now = System.currentTimeMillis();
+        float time = (now - createdOn) / 1000.0f;
+        int frameIndex = Math.round(time * fps) % frameCount;
+        srcRect.set(frameIndex * frameWidth, 0, (frameIndex + 1) * frameWidth, frameHeight);
+
+        // 화면 좌표로 보정
+        RectF screenDst = new RectF(dstRect);
+        screenDst.offset(-Metrics.cameraX, 0); // 카메라 보정
+
+        // 좌우 반전 처리
         if (facingLeft) {
             canvas.save();
-            float px = dstRect.centerX();
-            canvas.scale(-1, 1, px, dstRect.centerY()); // X축 기준 좌우 반전
-            super.draw(canvas);
+            float px = screenDst.centerX();
+            canvas.scale(-1, 1, px, screenDst.centerY()); // X축 기준 좌우 반전
+            canvas.drawBitmap(bitmap, srcRect, screenDst, null);
             canvas.restore();
         } else {
-            super.draw(canvas);
+            canvas.drawBitmap(bitmap, srcRect, screenDst, null);
         }
     }
 }

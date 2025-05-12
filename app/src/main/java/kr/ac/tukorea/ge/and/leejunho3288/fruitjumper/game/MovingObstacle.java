@@ -1,6 +1,7 @@
 package kr.ac.tukorea.ge.and.leejunho3288.fruitjumper.game;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.RectF;
 
 import kr.ac.tukorea.ge.and.leejunho3288.fruitjumper.R;
@@ -57,6 +58,7 @@ public class MovingObstacle extends AnimSprite implements IBoxCollidable, IRecyc
         collisionRect.set(dstRect);
         collisionRect.inset(8f, 8f); // 약간 축소된 충돌 박스
     }
+
 
     @Override
     public RectF getCollisionRect() {

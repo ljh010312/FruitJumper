@@ -1,10 +1,12 @@
 package kr.ac.tukorea.ge.and.leejunho3288.fruitjumper.game;
 
+import android.graphics.Canvas;
 import android.graphics.RectF;
 
 import kr.ac.tukorea.ge.and.leejunho3288.fruitjumper.R;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.interfaces.IBoxCollidable;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.objects.AnimSprite;
+import kr.ac.tukorea.ge.spgp2025.a2dg.framework.view.Metrics;
 
 public class Checkpoint extends AnimSprite implements IBoxCollidable {
     private final RectF collisionRect = new RectF();
@@ -51,8 +53,7 @@ public class Checkpoint extends AnimSprite implements IBoxCollidable {
         setImageResourceId(R.mipmap.checkpoint_flag_out_64x64, 20, 26);
         state = State.OUT;
 
-
-
-
     }
+
+
 }

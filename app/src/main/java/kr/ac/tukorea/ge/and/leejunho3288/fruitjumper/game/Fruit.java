@@ -1,10 +1,12 @@
 package kr.ac.tukorea.ge.and.leejunho3288.fruitjumper.game;
 
+import android.graphics.Canvas;
 import android.graphics.RectF;
 
 import kr.ac.tukorea.ge.and.leejunho3288.fruitjumper.R;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.interfaces.IBoxCollidable;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.objects.AnimSprite;
+import kr.ac.tukorea.ge.spgp2025.a2dg.framework.view.Metrics;
 
 public class Fruit extends AnimSprite implements IBoxCollidable {
     public enum Type {
@@ -31,6 +33,7 @@ public class Fruit extends AnimSprite implements IBoxCollidable {
     public Type getType() {
         return type;
     }
+
 
     @Override
     public RectF getCollisionRect() {

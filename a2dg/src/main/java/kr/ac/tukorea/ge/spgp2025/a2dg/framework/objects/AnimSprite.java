@@ -2,15 +2,18 @@ package kr.ac.tukorea.ge.spgp2025.a2dg.framework.objects;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.graphics.RectF;
+
+import kr.ac.tukorea.ge.spgp2025.a2dg.framework.view.Metrics;
 
 public class AnimSprite extends Sprite {
     protected float fps;
     protected int frameCount;
     protected int frameWidth;
     protected int frameHeight;
-    protected final long createdOn;
-    private int frameIndex;
+    protected int frameIndex;
 
+    protected final long createdOn;
     public AnimSprite(int mipmapId, float fps) {
         this(mipmapId, fps, 0);
     }
@@ -51,9 +54,12 @@ public class AnimSprite extends Sprite {
         // draw 에서 생성시각과의 차이로 frameIndex 를 계산한다.
         long now = System.currentTimeMillis();
         float time = (now - createdOn) / 1000.0f;
-        frameIndex = Math.round(time * fps) % frameCount;
+        int frameIndex = Math.round(time * fps) % frameCount;
         srcRect.set(frameIndex * frameWidth, 0, (frameIndex + 1) * frameWidth, frameHeight);
-        canvas.drawBitmap(bitmap, srcRect, dstRect, null);
+
+        RectF screenDst = new RectF(dstRect);
+        screenDst.offset(-Metrics.cameraX, 0); // 카메라 보정
+        canvas.drawBitmap(bitmap, srcRect, screenDst, null);
     }
 
     public int getCurrentFrame() {

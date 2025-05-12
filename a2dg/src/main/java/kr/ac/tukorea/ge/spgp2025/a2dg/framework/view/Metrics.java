@@ -15,7 +15,7 @@ public class Metrics {
     private static final Matrix transformMatrix = new Matrix();
     private static final Matrix invertedMatrix = new Matrix();
     private static final float[] pointsBuffer = new float[2];
-
+    public static float cameraX = 0f; // 카메라 위치 (왼쪽 기준)
 
     public static void setGameSize(float width, float height) {
         Metrics.width = width;

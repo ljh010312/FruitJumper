@@ -1,10 +1,14 @@
 package kr.ac.tukorea.ge.and.leejunho3288.fruitjumper.game;
 
+
+import android.graphics.Canvas;
 import android.graphics.RectF;
 
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.interfaces.IBoxCollidable;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.objects.Sprite;
 import kr.ac.tukorea.ge.and.leejunho3288.fruitjumper.R;
+import kr.ac.tukorea.ge.spgp2025.a2dg.framework.view.GameView;
+import kr.ac.tukorea.ge.spgp2025.a2dg.framework.view.Metrics;
 
 public class Platform extends Sprite implements IBoxCollidable {
     public enum Type {
@@ -24,6 +28,12 @@ public class Platform extends Sprite implements IBoxCollidable {
         return type == Type.ONE_WAY;
     }
 
+    @Override
+    public void draw(Canvas canvas) {
+        RectF screenDst = new RectF(dstRect);
+        screenDst.offset(-Metrics.cameraX, 0); // 카메라 보정
+        canvas.drawBitmap(bitmap, srcRect, screenDst, null);
+    }
     @Override
     public RectF getCollisionRect() {
         return collisionRect;

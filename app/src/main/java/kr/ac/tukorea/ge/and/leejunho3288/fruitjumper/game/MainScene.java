@@ -121,6 +121,16 @@ public class MainScene extends Scene {
     }
 
     @Override
+    public void update() {
+        super.update();
+
+        // 카메라를 플레이어 기준으로 이동
+        float targetX = player.getCollisionRect().centerX() - Metrics.width / 2f;
+        float maxX = 3000f - Metrics.width;
+        Metrics.cameraX = Math.max(0f, Math.min(targetX, maxX));
+    }
+
+    @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
         if (checkpointStarCount > 0) {
