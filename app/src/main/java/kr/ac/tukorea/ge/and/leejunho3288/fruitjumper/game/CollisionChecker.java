@@ -7,6 +7,7 @@ import android.graphics.RectF;
 import java.util.ArrayList;
 
 import kr.ac.tukorea.ge.and.leejunho3288.fruitjumper.R;
+import kr.ac.tukorea.ge.spgp2025.a2dg.framework.interfaces.IBoxCollidable;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.interfaces.IGameObject;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.res.BitmapPool;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.util.CollisionHelper;
@@ -32,12 +33,10 @@ public class CollisionChecker implements IGameObject {
         ArrayList<IGameObject> obstacles = scene.objectsAt(MainScene.Layer.enemy);
         for (int i = obstacles.size() - 1; i >= 0; i--) {
             IGameObject gobj = obstacles.get(i);
-            if (!(gobj instanceof MovingObstacle)) {
-                continue;
-            }
-            MovingObstacle obstacle = (MovingObstacle) gobj;
-            if (CollisionHelper.collides(player, obstacle)) {
-                player.hit();
+            if (gobj instanceof MovingObstacle || gobj instanceof Spike) {
+                if (CollisionHelper.collides(player, (IBoxCollidable) gobj)) {
+                    player.hit();
+                }
             }
         }
     }

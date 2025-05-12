@@ -62,6 +62,8 @@ public class MainScene extends Scene {
 
         // Moving obstacle
         add(Layer.enemy, new MovingObstacle(MovingObstacle.Direction.VERTICAL, 200f, 2f, 500f, 200f));
+        add(Layer.enemy, new Spike(600f, 830f, 64f, 32f)); // x, y, width, height
+
 
         add(Layer.fruit, new Fruit(Fruit.Type.BANANA, 800f, 700f, 64f, 64.f));
         add(Layer.fruit, new Fruit(Fruit.Type.APPLE, 1000f, 700f, 64f, 64.f));
