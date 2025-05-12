@@ -9,6 +9,8 @@ public class AnimSprite extends Sprite {
     protected int frameWidth;
     protected int frameHeight;
     protected final long createdOn;
+    private int frameIndex;
+
     public AnimSprite(int mipmapId, float fps) {
         this(mipmapId, fps, 0);
     }
@@ -49,8 +51,17 @@ public class AnimSprite extends Sprite {
         // draw 에서 생성시각과의 차이로 frameIndex 를 계산한다.
         long now = System.currentTimeMillis();
         float time = (now - createdOn) / 1000.0f;
-        int frameIndex = Math.round(time * fps) % frameCount;
+        frameIndex = Math.round(time * fps) % frameCount;
         srcRect.set(frameIndex * frameWidth, 0, (frameIndex + 1) * frameWidth, frameHeight);
         canvas.drawBitmap(bitmap, srcRect, dstRect, null);
     }
+
+    public int getCurrentFrame() {
+        return frameIndex;
+    }
+
+    public int getFrameCount() {
+        return frameCount;
+    }
+
 }

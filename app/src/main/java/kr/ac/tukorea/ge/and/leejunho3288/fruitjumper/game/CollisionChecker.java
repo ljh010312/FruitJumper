@@ -1,11 +1,16 @@
 package kr.ac.tukorea.ge.and.leejunho3288.fruitjumper.game;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.RectF;
 
 import java.util.ArrayList;
 
+import kr.ac.tukorea.ge.and.leejunho3288.fruitjumper.R;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.interfaces.IGameObject;
+import kr.ac.tukorea.ge.spgp2025.a2dg.framework.res.BitmapPool;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.util.CollisionHelper;
+import kr.ac.tukorea.ge.spgp2025.a2dg.framework.view.Metrics;
 
 public class CollisionChecker implements IGameObject {
     private final MainScene scene;
@@ -20,6 +25,7 @@ public class CollisionChecker implements IGameObject {
     public void update() {
         checkEnemyCollision();
         checkFruitCollsion();
+        checkCheckpointCollision();
     }
 
     private void checkEnemyCollision() {
@@ -51,6 +57,27 @@ public class CollisionChecker implements IGameObject {
         }
     }
 
+    private void checkCheckpointCollision() {
+        ArrayList<IGameObject> objs = scene.objectsAt(MainScene.Layer.checkpoint);
+        for (IGameObject obj : objs) {
+            if (!(obj instanceof Checkpoint)) continue;
+            Checkpoint checkpoint = (Checkpoint) obj;
+
+            if (checkpoint.getActive()) continue;
+
+            if (CollisionHelper.collides(player, checkpoint)){
+                int fruitCount = FruitHud.get().getCollectedCount();
+                if (fruitCount == 0) return; // 과일 없으면 무시
+                checkpoint.activate();
+                scene.checkpointStarCount = fruitCount;
+                FruitHud.get().clear();
+            }
+
+        }
+    }
+
     @Override
     public void draw(Canvas canvas) {}
+
+
 }

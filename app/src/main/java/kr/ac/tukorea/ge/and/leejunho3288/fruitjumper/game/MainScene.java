@@ -1,6 +1,10 @@
 package kr.ac.tukorea.ge.and.leejunho3288.fruitjumper.game;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
 import android.view.MotionEvent;
 
 import kr.ac.tukorea.ge.and.leejunho3288.fruitjumper.R;
@@ -13,10 +17,12 @@ import kr.ac.tukorea.ge.spgp2025.a2dg.framework.view.Metrics;
 
 public class MainScene extends Scene {
     public enum Layer {
-        background, platform, fruit, enemy, player, touch, controller;
+        background, platform, fruit, checkpoint, enemy, player, touch, controller;
         public static final int COUNT = values().length;
     }
+
     private final Player player;
+    public int checkpointStarCount = 0;
 
     public MainScene() {
         Metrics.setGameSize(1600, 900);
@@ -25,7 +31,7 @@ public class MainScene extends Scene {
         this.player = new Player();
         add(Layer.player, player);
 
-        add(Layer.touch, new Button(R.mipmap.button_play_inverse, R.mipmap.button_play_pressed_inverse,200f, 700f, 150f, 150f, new Button.OnTouchListener() {
+        add(Layer.touch, new Button(R.mipmap.button_play_inverse, R.mipmap.button_play_pressed_inverse, 200f, 700f, 150f, 150f, new Button.OnTouchListener() {
             @Override
             public boolean onTouch(boolean pressed) {
                 player.moveLeft(pressed);
@@ -49,16 +55,6 @@ public class MainScene extends Scene {
             }
         }));
 
-
-        add(Layer.touch, new Button(R.mipmap.button_jump, R.mipmap.button_jump_pressed, 1300f, 300f, 200f, 125f, new Button.OnTouchListener() {
-            @Override
-            public boolean onTouch(boolean pressed) {
-                player.hit();
-                return false;
-            }
-        }));
-
-
         add(Layer.background, new VertScrollBackground(R.mipmap.background_brown, 40));
 
         addFloorPlatforms();
@@ -72,7 +68,11 @@ public class MainScene extends Scene {
         add(Layer.fruit, new Fruit(Fruit.Type.ORANGE, 1200f, 700f, 64f, 64.f));
         add(Layer.controller, FruitHud.get());
         add(Layer.controller, HealthHud.get());
+        add(Layer.checkpoint, new Checkpoint(1500, 800, 100, 100));
+
         add(Layer.controller, new CollisionChecker(this, player));
+
+
     }
 
     private void addFloorPlatforms() {
@@ -83,15 +83,16 @@ public class MainScene extends Scene {
         float y = 850f;
 
         for (float x = startX; x <= endX; x += platformWidth) {
-            add(Layer.platform, new Platform(R.mipmap.ground, x, y, platformWidth, platformHeight,Platform.Type.SOLID));
+            add(Layer.platform, new Platform(R.mipmap.ground, x, y, platformWidth, platformHeight, Platform.Type.SOLID));
         }
 
         y = 600f;
         endX = 1000;
         for (float x = startX; x <= endX; x += platformWidth) {
-            add(Layer.platform, new Platform(R.mipmap.ground, x, y, platformWidth, platformHeight,Platform.Type.SOLID));
+            add(Layer.platform, new Platform(R.mipmap.ground, x, y, platformWidth, platformHeight, Platform.Type.SOLID));
         }
     }
+
     private void addOneWayPlatforms() {
         float platformWidth = 100f;
         float platformHeight = 10f;
@@ -119,4 +120,52 @@ public class MainScene extends Scene {
         return Layer.touch.ordinal();
     }
 
+    @Override
+    public void draw(Canvas canvas) {
+        super.draw(canvas);
+        if (checkpointStarCount > 0) {
+            drawCollectedStars(canvas, checkpointStarCount);
+        }
+    }
+
+
+    private void drawCollectedStars(Canvas canvas, int count) {
+        if (count <= 0) return;
+
+        int maxCount = Math.min(count, 3); // 최대 3개
+        Bitmap star = BitmapPool.get(R.mipmap.yellow_star);
+        float iconSize = 80f;
+        float spacing = 20f;
+
+        // 위치 계산
+        float totalWidth = iconSize * maxCount + spacing * (maxCount - 1);
+        float centerX = Metrics.width / 2f;
+        float centerY = Metrics.height / 2f;
+        float startX = centerX - totalWidth / 2f;
+        float y = centerY - iconSize / 2f;
+
+        float padding = 24f;
+        float bgLeft = startX - padding;
+        float bgTop = y - padding;
+        float bgRight = startX + totalWidth + padding;
+        float bgBottom = y + iconSize + padding;
+
+        Paint bgPaint = new Paint();
+        bgPaint.setColor(Color.WHITE);
+        bgPaint.setAlpha(200); // 반투명
+
+        Paint borderPaint = new Paint();
+        borderPaint.setColor(Color.BLACK);
+        borderPaint.setStyle(Paint.Style.STROKE);
+        borderPaint.setStrokeWidth(4f);
+
+        canvas.drawRect(bgLeft, bgTop, bgRight, bgBottom, bgPaint);   // 배경
+        canvas.drawRect(bgLeft, bgTop, bgRight, bgBottom, borderPaint); // 테두리
+
+        for (int i = 0; i < maxCount; i++) {
+            float x = startX + i * (iconSize + spacing);
+            RectF dst = new RectF(x, y, x + iconSize, y + iconSize);
+            canvas.drawBitmap(star, null, dst, null);
+        }
+    }
 }

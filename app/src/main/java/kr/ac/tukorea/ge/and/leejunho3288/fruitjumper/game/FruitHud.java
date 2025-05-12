@@ -66,4 +66,12 @@ public class FruitHud implements IGameObject {
     }
 
     @Override public void update() {} // 필요 시 애니메이션 등 추가
+
+    public int getCollectedCount() {
+        return collectedFruits.size();
+    }
+
+    public void clear() {
+        collectedFruits.clear();
+    }
 }
