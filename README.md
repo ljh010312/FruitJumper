@@ -87,7 +87,7 @@
 없음
 
 ## MainScene에 등장하는 오브젝트
-![스크린샷 2025-05-12 222123](https://github.com/user-attachments/assets/384616fe-8b1a-4acb-b2fe-31ca899e34ef)
+![스크린샷 2025-05-12 225536](https://github.com/user-attachments/assets/80c2ff5b-08ec-4fe1-85ba-9871ec3ac9ca)
 ![스크린샷 2025-05-12 222049](https://github.com/user-attachments/assets/36c3c9a8-804d-4acc-9536-6399b6f14e6c)
 
 | 클래스 이름             | 구성 정보                                                         | 상호작용 정보                             | 핵심 역할 및 코드 설명                                                            |
@@ -96,10 +96,12 @@
 | **Platform**       | 고정형 이미지, `SOLID`, `ONE_WAY` 2종류 타입 지원                         | 플레이어와 충돌하여 이동/낙하를 제어                | 플레이어의 이동 발판. 아래에서 통과 가능한 플랫폼 처리(`canPassFromBelow`) 포함                   |
 | **Spike**          | 가시 이미지로 구성된 바닥형 장애물, 충돌 박스 축소 설정                              | 플레이어가 닿으면 `player.hit()` 호출         | 고정형 피해 오브젝트. 단순히 닿기만 해도 피해 발생                                            |
 | **MovingObstacle** | 좌우/상하로 이동하는 애니메이션 오브젝트                                        | 플레이어와 충돌 시 `player.hit()` 발생        | sin 기반 이동 장애물. `Direction`(HORIZONTAL, VERTICAL)에 따라 자동 이동 구현            |
-| **Fruit**          | 다양한 과일 리소스를 가진 애니메이션 오브젝트                                     | 플레이어와 충돌 시 수집됨, `FruitHud`에 추가됨     | 수집 요소. `Fruit.Type` enum으로 종류 구분. 수집 시 HUD와 체크포인트 결과에 사용됨                |
-| **Checkpoint**     | 깃발 애니메이션(Idle → Out → NoFlag), 상태 관리                          | 플레이어가 과일 ≥ 1개 소지 시 도달하면 별 표시, 상태 전환 | 맵 내 평가 지점. `activate()` 호출로 애니메이션 전환 및 `FruitHud` 초기화                    |
-| **FruitHud**       | 수집된 과일을 상단 중앙에 흰색 박스로 표시                                      | 과일 수집 시 아이콘 추가됨, 체크포인트 진입 시 초기화     | 수집된 과일 시각화. HUD로 게임성과 직결된 UI 구성 요소                                       |
 | **HealthHud**      | 플레이어 체력을 하트로 표시, 흰색 배경 및 검은 테두리 포함                            | `player.hit()` 시 `setHp()`로 갱신됨     | 체력 HUD. `setHp(current, max)`를 통해 체력 상태 시각화 담당                           |
+| **Fruit**          | 다양한 과일 리소스를 가진 애니메이션 오브젝트                                     | 플레이어와 충돌 시 수집됨, `FruitHud`에 추가됨     | 수집 요소. `Fruit.Type` enum으로 종류 구분. 수집 시 HUD와 체크포인트 결과에 사용됨                |
+| **FruitHud**       | 수집된 과일을 상단 중앙에 흰색 박스로 표시                                      | 과일 수집 시 아이콘 추가됨, 체크포인트 진입 시 초기화     | 수집된 과일 시각화. HUD로 게임성과 직결된 UI 구성 요소                                       |
+| **Checkpoint**     | 깃발 애니메이션(Idle → Out → NoFlag), 상태 관리                          | 플레이어가 과일 ≥ 1개 소지 시 도달하면 별 표시, 상태 전환 | 맵 내 평가 지점. `activate()` 호출로 애니메이션 전환 및 `FruitHud` 초기화                    |
+
+
 
 
 
