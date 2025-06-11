@@ -135,6 +135,11 @@ public class MainScene extends Scene {
         return Layer.touch.ordinal();
     }
 
+    public static void restart() {
+        Scene.pop(); // 기존 MainScene 제거
+        new MainScene().push();
+    }
+
     @Override
     public void update() {
         super.update();
@@ -143,14 +148,15 @@ public class MainScene extends Scene {
         float targetX = player.getCollisionRect().centerX() - Metrics.width / 2f;
         float maxX = 3000f - Metrics.width;
         Metrics.cameraX = Math.max(0f, Math.min(targetX, maxX));
+        if (checkpointStarCount > 0) {
+            new ClearScene(checkpointStarCount).push();
+        }
     }
 
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        if (checkpointStarCount > 0) {
-            drawCollectedStars(canvas, checkpointStarCount);
-        }
+
     }
 
 
