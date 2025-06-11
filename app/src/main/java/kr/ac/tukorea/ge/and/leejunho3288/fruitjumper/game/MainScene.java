@@ -183,4 +183,12 @@ public class MainScene extends Scene {
             canvas.drawBitmap(star, null, dst, null);
         }
     }
+
+    @Override
+    public boolean onBackPressed() {
+        new PauseScene().push();
+        return true;
+    }
+
 }
+
