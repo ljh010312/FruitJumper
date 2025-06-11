@@ -56,10 +56,10 @@ public class MainScene extends Scene {
         }));
 
         // 옵션 버튼
-        add(Layer.touch, new Button(R.mipmap.button_settings, R.mipmap.button_settings_pressed, 1550f, 50f, 100f, 100f, new Button.OnTouchListener() {
+        add(Layer.touch, new Button(R.mipmap.button_settings, R.mipmap.button_settings, 1550f, 50f, 100f, 100f, new Button.OnTouchListener() {
             @Override
             public boolean onTouch(boolean pressed) {
-                if (!pressed) player.jump(); // 손 뗄 때 점프
+                new PauseScene().push();
                 return true;
             }
         }));
