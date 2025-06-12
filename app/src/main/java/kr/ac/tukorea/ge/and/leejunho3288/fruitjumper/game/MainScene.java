@@ -66,9 +66,9 @@ public class MainScene extends Scene {
 
 
         add(Layer.background, new VertScrollBackground(R.mipmap.background_brown, 40));
-
-        addFloorPlatforms();
-        addOneWayPlatforms();
+        add(Layer.platform, new MapLoader(this, 0));
+//        addFloorPlatforms();
+//        addOneWayPlatforms();
 
         // Moving obstacle
         add(Layer.enemy, new MovingObstacle(MovingObstacle.Direction.VERTICAL, 200f, 2f, 500f, 200f));
