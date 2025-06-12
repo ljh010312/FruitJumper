@@ -77,9 +77,7 @@ public class MainScene extends Scene {
         add(Layer.enemy, new Spike(1664f, 830f, 64f, 32f)); // x, y, width, height
 
 
-        add(Layer.fruit, new Fruit(Fruit.Type.BANANA, 100f, 700f, 64f, 64.f));
-        add(Layer.fruit, new Fruit(Fruit.Type.APPLE, 1300f, 300f, 64f, 64.f));
-        add(Layer.fruit, new Fruit(Fruit.Type.ORANGE, 2700f, 700f, 64f, 64.f));
+
         add(Layer.controller, FruitHud.get());
         add(Layer.controller, HealthHud.get());
         add(Layer.checkpoint, new Checkpoint(2900, 800, 100, 100));
@@ -89,47 +87,6 @@ public class MainScene extends Scene {
 
     }
 
-    private void addFloorPlatforms() {
-        float startX = 0f;
-        float endX = 3000f;
-        float platformWidth = 100f;
-        float platformHeight = 100f;
-        float y = 850f;
-
-        for (float x = startX; x <= endX; x += platformWidth) {
-            add(Layer.platform, new Platform(R.mipmap.ground, x, y, platformWidth, platformHeight, Platform.Type.SOLID));
-        }
-
-        y = 600f;
-        endX = 500f;
-        for (float x = startX; x <= endX; x += platformWidth) {
-            add(Layer.platform, new Platform(R.mipmap.ground, x, y, platformWidth, platformHeight, Platform.Type.SOLID));
-        }
-
-    }
-
-    private void addOneWayPlatforms() {
-        float platformWidth = 100f;
-        float platformHeight = 10f;
-        float startY = 550f;
-        float verticalGap = 150f;
-        float horizontalGap = 250f;
-        int rows = 2;
-
-        for (int row = 0; row < rows; row++) {
-            float y = startY - row * verticalGap;
-            float offset = (row % 2 == 0) ? 50f : 150f;
-
-            for (float x = offset; x <= 1600 - platformWidth; x += horizontalGap) {
-                add(Layer.platform, new Platform(
-                        R.mipmap.plat,
-                        x + platformWidth / 2, y + platformHeight / 2,
-                        platformWidth, platformHeight,
-                        Platform.Type.ONE_WAY
-                ));
-            }
-        }
-    }
 
     protected int getTouchLayerIndex() {
         return Layer.touch.ordinal();
@@ -148,6 +105,13 @@ public class MainScene extends Scene {
         float targetX = player.getCollisionRect().centerX() - Metrics.width / 2f;
         float maxX = 3000f - Metrics.width;
         Metrics.cameraX = Math.max(0f, Math.min(targetX, maxX));
+
+        // Y축 카메라 이동 추가
+        float targetY = player.getCollisionRect().centerY() - Metrics.height / 2f;
+        float maxY = 1800f - Metrics.height; // 스테이지 전체 높이 기준
+        Metrics.cameraY = Math.max(0f, Math.min(targetY, maxY));
+
+
         if (checkpointStarCount > 0) {
             new ClearScene(checkpointStarCount).push();
         }

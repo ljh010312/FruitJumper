@@ -156,7 +156,7 @@ public class Scene {
                     if (gobj instanceof IBoxCollidable) {
                         RectF worldRect = ((IBoxCollidable) gobj).getCollisionRect();
                         RectF screenRect = new RectF(worldRect);
-                        screenRect.offset(-Metrics.cameraX, 0); // 카메라 보정
+                        screenRect.offset(-Metrics.cameraX, -Metrics.cameraY); // 카메라 보정
                         canvas.drawRect(screenRect, bboxPaint);
                     }
                 }

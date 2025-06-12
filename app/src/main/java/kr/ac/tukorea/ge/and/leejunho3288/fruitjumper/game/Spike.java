@@ -28,7 +28,7 @@ public class Spike extends Sprite implements IBoxCollidable {
     @Override
     public void draw(Canvas canvas) {
         RectF screenDst = new RectF(dstRect);
-        screenDst.offset(-Metrics.cameraX, 0); // 카메라 보정
+        screenDst.offset(-Metrics.cameraX, -Metrics.cameraY); // 카메라 보정
         canvas.drawBitmap(bitmap, srcRect, screenDst, null);
     }
     @Override
