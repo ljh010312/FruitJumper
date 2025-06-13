@@ -26,7 +26,7 @@ public class StartScene extends Scene {
                 btnBitmap,
                 pressedBtnBitmap,
                 700, 600, 900, 800,
-                () -> new MainScene().push()
+                () -> new SelectScene().push()
         );
         add(Layer.controller, startButton);
 

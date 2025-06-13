@@ -22,18 +22,21 @@ public class MainScene extends Scene {
     }
 
     private final Player player;
+    private int stageIndex;
     public int checkpointStarCount = 0;
 
-    public MainScene() {
+
+    public MainScene(int stageIndex) {
         Metrics.setGameSize(1600, 900);
         initLayers(Layer.COUNT);
-
+        this.stageIndex = stageIndex;
         this.player = new Player();
         add(Layer.player, player);
         addButton();
         add(Layer.background, new VertScrollBackground(R.mipmap.background_brown, 40));
-        add(Layer.platform, new MapLoader(this, 0));
+        add(Layer.platform, new MapLoader(this, this.stageIndex));
         add(Layer.controller, FruitHud.get());
+        HealthHud.get().setHp(5, 5);
         add(Layer.controller, HealthHud.get());
         add(Layer.controller, new CollisionChecker(this, player));
     }
@@ -78,9 +81,9 @@ public class MainScene extends Scene {
         return Layer.touch.ordinal();
     }
 
-    public static void restart() {
+    public static void restart(int stageIndex) {
         Scene.pop(); // 기존 MainScene 제거
-        new MainScene().push();
+        new MainScene(stageIndex).push();
     }
 
     @Override
@@ -99,7 +102,7 @@ public class MainScene extends Scene {
 
 
         if (checkpointStarCount > 0) {
-            new ClearScene(checkpointStarCount).push();
+            new ClearScene(checkpointStarCount, this.stageIndex).push();
         }
     }
 

@@ -44,7 +44,7 @@ public class PauseScene extends Scene{
         add(PauseLayer.ui, new Button(R.mipmap.button_restart, R.mipmap.button_restart, btnX1, btnY, btnWidth, btnHeight, pressed -> {
             Scene.pop(); // pauseScene pop
             Scene.pop(); // mainScene pop
-            new MainScene().push(); // 맵 여러개 되면 수정해야함
+            new MainScene(0).push(); // 맵 여러개 되면 수정해야함
             return false;
         }));
 

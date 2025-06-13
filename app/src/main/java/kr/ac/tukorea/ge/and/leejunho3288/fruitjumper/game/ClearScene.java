@@ -11,7 +11,7 @@ public class ClearScene extends Scene {
         bg, stars, ui, COUNT
     }
 
-    public ClearScene(int starCount) {
+    public ClearScene(int starCount, int stageIndex) {
         initLayers(ClearLayer.COUNT.ordinal());
 
         Sprite bg = new Sprite(R.mipmap.trans_50b);
@@ -45,7 +45,7 @@ public class ClearScene extends Scene {
         // 재시작 버튼
         add(ClearLayer.ui, new Button(R.mipmap.button_restart, R.mipmap.button_restart, btnX1, btnY, btnWidth, btnHeight, pressed -> {
             Scene.pop(); // ClearScene 제거
-            MainScene.restart(); // mainScene 재시작
+            MainScene.restart(stageIndex); // mainScene 재시작
             return false;
         }));
 
