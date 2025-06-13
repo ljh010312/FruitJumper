@@ -156,7 +156,7 @@ public class Scene {
                     if (gobj instanceof IBoxCollidable) {
                         RectF worldRect = ((IBoxCollidable) gobj).getCollisionRect();
                         RectF screenRect = new RectF(worldRect);
-                        screenRect.offset(-Metrics.cameraX, 0); // 카메라 보정
+                        screenRect.offset(-Metrics.cameraX, -Metrics.cameraY); // 카메라 보정
                         canvas.drawRect(screenRect, bboxPaint);
                     }
                 }
@@ -168,6 +168,9 @@ public class Scene {
     //////////////////////////////////////////////////
     // Scene Stack Functions
 
+    public void change() {
+        GameView.view.changeScene(this);
+    }
     public void push() {
         GameView.view.pushScene(this);
     }
@@ -177,10 +180,15 @@ public class Scene {
     public static Scene top() {
         return GameView.view.getTopScene();
     }
+    public static void popAll() {
+        GameView.view.popAllScenes();
+    }
 
     //////////////////////////////////////////////////
     // Overridables
-
+    public boolean isTransparent() {
+        return false;
+    }
     protected int getTouchLayerIndex() {
         return -1;
     }

@@ -260,7 +260,7 @@ public class Player extends AnimSprite implements IBoxCollidable {
 
         // 화면 좌표로 보정
         RectF screenDst = new RectF(dstRect);
-        screenDst.offset(-Metrics.cameraX, 0); // 카메라 보정
+        screenDst.offset(-Metrics.cameraX, -Metrics.cameraY); // 카메라 보정
 
         // 좌우 반전 처리
         if (facingLeft) {
