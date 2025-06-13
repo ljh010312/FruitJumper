@@ -11,7 +11,7 @@ public class ClearScene extends Scene {
         bg, stars, ui, COUNT
     }
 
-    public ClearScene(int starCount, int stageIndex) {
+    public ClearScene(int starCount, int stageIndex, boolean isClear) {
         initLayers(ClearLayer.COUNT.ordinal());
 
         Sprite bg = new Sprite(R.mipmap.trans_50b);
@@ -50,12 +50,13 @@ public class ClearScene extends Scene {
         }));
 
         // 다음 스테이지 버튼
-        add(ClearLayer.ui, new Button(R.mipmap.button_next, R.mipmap.button_next, btnX2, btnY, btnWidth, btnHeight, pressed -> {
-            Scene.pop(); // ClearScene 제거
-            //new MainScene(stageIndex + 1).push();
-            return false;
-        }));
-
+        if (isClear) {
+            add(ClearLayer.ui, new Button(R.mipmap.button_next, R.mipmap.button_next, btnX2, btnY, btnWidth, btnHeight, pressed -> {
+                Scene.pop(); // ClearScene 제거
+                //new MainScene(stageIndex + 1).push();
+                return false;
+            }));
+        }
         // 뒤로가기 버튼
         add(ClearLayer.ui, new Button(R.mipmap.button_back, R.mipmap.button_back, btnX3, btnY, btnWidth, btnHeight, pressed -> {
             Scene.pop(); // ClearScene 제거

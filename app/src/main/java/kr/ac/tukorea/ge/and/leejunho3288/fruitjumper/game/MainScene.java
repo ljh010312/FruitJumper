@@ -100,9 +100,12 @@ public class MainScene extends Scene {
         float maxY = 1800f - Metrics.height; // 스테이지 전체 높이 기준
         Metrics.cameraY = Math.max(0f, Math.min(targetY, maxY));
 
+        if (1800 < targetY) {
+            new ClearScene(checkpointStarCount, this.stageIndex, false).push();
+        }
 
         if (checkpointStarCount > 0) {
-            new ClearScene(checkpointStarCount, this.stageIndex).push();
+            new ClearScene(checkpointStarCount, this.stageIndex, true).push();
         }
     }
 
