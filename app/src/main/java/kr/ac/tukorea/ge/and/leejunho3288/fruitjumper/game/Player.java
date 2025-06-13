@@ -42,8 +42,8 @@ public class Player extends AnimSprite implements IBoxCollidable {
 
     public Player(){
         super(R.mipmap.player_idle, 20, 11);
-        this.x = Metrics.width / 2;
-        this.y = Metrics.height - 200;
+        this.x = 100;
+        this.y = Metrics.height * 2 - 200;
         setPosition(x, y, PLAYER_WIDTH_HEIGHT, PLAYER_WIDTH_HEIGHT);
         updateCollisionRect();
     }

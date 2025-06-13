@@ -30,8 +30,16 @@ public class MainScene extends Scene {
 
         this.player = new Player();
         add(Layer.player, player);
+        addButton();
+        add(Layer.background, new VertScrollBackground(R.mipmap.background_brown, 40));
+        add(Layer.platform, new MapLoader(this, 0));
+        add(Layer.controller, FruitHud.get());
+        add(Layer.controller, HealthHud.get());
+        add(Layer.controller, new CollisionChecker(this, player));
+    }
 
-        add(Layer.touch, new Button(R.mipmap.button_play_inverse, R.mipmap.button_play_pressed_inverse, 200f, 700f, 150f, 150f, new Button.OnTouchListener() {
+    private void addButton() {
+        add(Layer.touch, new Button(R.mipmap.button_play_inverse, R.mipmap.button_play_pressed_inverse, 125f, 725f, 200f, 200f, new Button.OnTouchListener() {
             @Override
             public boolean onTouch(boolean pressed) {
                 player.moveLeft(pressed);
@@ -39,7 +47,7 @@ public class MainScene extends Scene {
             }
         }));
 
-        add(Layer.touch, new Button(R.mipmap.button_play, R.mipmap.button_play_pressed, 350f, 700f, 150f, 150f, new Button.OnTouchListener() {
+        add(Layer.touch, new Button(R.mipmap.button_play, R.mipmap.button_play_pressed, 325f, 725f, 200f, 200f, new Button.OnTouchListener() {
             @Override
             public boolean onTouch(boolean pressed) {
                 player.moveRight(pressed);
@@ -47,7 +55,7 @@ public class MainScene extends Scene {
             }
         }));
 
-        add(Layer.touch, new Button(R.mipmap.button_jump, R.mipmap.button_jump_pressed, 1300f, 700f, 200f, 125f, new Button.OnTouchListener() {
+        add(Layer.touch, new Button(R.mipmap.button_jump, R.mipmap.button_jump_pressed, 1350f, 750f, 300f, 200f, new Button.OnTouchListener() {
             @Override
             public boolean onTouch(boolean pressed) {
                 if (!pressed) player.jump(); // 손 뗄 때 점프
@@ -63,28 +71,6 @@ public class MainScene extends Scene {
                 return true;
             }
         }));
-
-
-        add(Layer.background, new VertScrollBackground(R.mipmap.background_brown, 40));
-        add(Layer.platform, new MapLoader(this, 0));
-//        addFloorPlatforms();
-//        addOneWayPlatforms();
-
-        // Moving obstacle
-        add(Layer.enemy, new MovingObstacle(MovingObstacle.Direction.VERTICAL, 200f, 2f, 500f, 200f));
-        add(Layer.enemy, new MovingObstacle(MovingObstacle.Direction.HORIZONTAL, 200f, 2f, 1000f, 200f));
-        add(Layer.enemy, new Spike(1600f, 830f, 64f, 32f)); // x, y, width, height
-        add(Layer.enemy, new Spike(1664f, 830f, 64f, 32f)); // x, y, width, height
-
-
-
-        add(Layer.controller, FruitHud.get());
-        add(Layer.controller, HealthHud.get());
-        add(Layer.checkpoint, new Checkpoint(2900, 800, 100, 100));
-
-        add(Layer.controller, new CollisionChecker(this, player));
-
-
     }
 
 
