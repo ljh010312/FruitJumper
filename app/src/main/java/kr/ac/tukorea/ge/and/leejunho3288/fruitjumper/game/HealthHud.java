@@ -72,4 +72,8 @@ public class HealthHud implements IGameObject {
     public void update() {
         // 필요 시 체력 애니메이션 등 추가 가능
     }
+
+    public boolean isDie() {
+        return currentHp == 0;
+    }
 }

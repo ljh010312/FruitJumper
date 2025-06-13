@@ -35,6 +35,7 @@ public class MainScene extends Scene {
         addButton();
         add(Layer.background, new VertScrollBackground(R.mipmap.background_brown, 40));
         add(Layer.platform, new MapLoader(this, this.stageIndex));
+        FruitHud.get().clear();
         add(Layer.controller, FruitHud.get());
         HealthHud.get().setHp(5, 5);
         add(Layer.controller, HealthHud.get());
@@ -100,7 +101,7 @@ public class MainScene extends Scene {
         float maxY = 1800f - Metrics.height; // 스테이지 전체 높이 기준
         Metrics.cameraY = Math.max(0f, Math.min(targetY, maxY));
 
-        if (1800 < targetY) {
+        if (1800 < targetY || HealthHud.get().isDie()) {
             new ClearScene(checkpointStarCount, this.stageIndex, false).push();
         }
 

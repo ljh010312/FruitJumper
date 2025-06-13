@@ -50,10 +50,11 @@ public class ClearScene extends Scene {
         }));
 
         // 다음 스테이지 버튼
-        if (isClear) {
+        if (isClear && 2 != stageIndex) {
             add(ClearLayer.ui, new Button(R.mipmap.button_next, R.mipmap.button_next, btnX2, btnY, btnWidth, btnHeight, pressed -> {
                 Scene.pop(); // ClearScene 제거
-                //new MainScene(stageIndex + 1).push();
+                Scene.pop(); // MainScene 제거
+                new MainScene(stageIndex + 1).push();
                 return false;
             }));
         }
