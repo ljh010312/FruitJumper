@@ -7,6 +7,7 @@ import kr.ac.tukorea.ge.and.leejunho3288.fruitjumper.R;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.interfaces.IBoxCollidable;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.interfaces.IGameObject;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.objects.AnimSprite;
+import kr.ac.tukorea.ge.spgp2025.a2dg.framework.res.Sound;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.scene.Scene;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.view.GameView;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.view.Metrics;
@@ -158,16 +159,19 @@ public class Player extends AnimSprite implements IBoxCollidable {
             isOnGround = false;
             hasDoubleJumped = false;
             setState(State.jump);
+            Sound.playEffect(R.raw.jump1);
         } else if (!hasDoubleJumped) {
             velocityY = -JUMP_POWER;
             hasDoubleJumped = true;
             setState(State.doubleJump);
+            Sound.playEffect(R.raw.jump1);
         }
     }
 
     public void hit(){
         if (isInvincible())
             return;
+        Sound.playEffect(R.raw.hurt);
         hp = Math.max(hp - 1, 0);
         HealthHud.get().setHp(hp, maxHp); // ← 여기에서 HUD 자동 업데이트
         prevState = state;

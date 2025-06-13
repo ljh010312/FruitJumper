@@ -10,6 +10,7 @@ import kr.ac.tukorea.ge.and.leejunho3288.fruitjumper.R;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.interfaces.IBoxCollidable;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.interfaces.IGameObject;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.res.BitmapPool;
+import kr.ac.tukorea.ge.spgp2025.a2dg.framework.res.Sound;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.util.CollisionHelper;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.view.Metrics;
 
@@ -36,6 +37,8 @@ public class CollisionChecker implements IGameObject {
             if (gobj instanceof MovingObstacle || gobj instanceof Spike) {
                 if (CollisionHelper.collides(player, (IBoxCollidable) gobj)) {
                     player.hit();
+
+
                 }
             }
         }
@@ -52,6 +55,8 @@ public class CollisionChecker implements IGameObject {
             if (CollisionHelper.collides(player, fruit)) {
                 FruitHud.get().addFruit(fruit.getType());
                 scene.remove(MainScene.Layer.fruit, fruit);
+                Sound.playEffect(R.raw.jelly_alphabet);
+
             }
         }
     }

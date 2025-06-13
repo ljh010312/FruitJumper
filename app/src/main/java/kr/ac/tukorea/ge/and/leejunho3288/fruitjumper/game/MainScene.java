@@ -12,6 +12,7 @@ import kr.ac.tukorea.ge.spgp2025.a2dg.framework.objects.Button;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.objects.HorzScrollBackground;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.objects.VertScrollBackground;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.res.BitmapPool;
+import kr.ac.tukorea.ge.spgp2025.a2dg.framework.res.Sound;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.scene.Scene;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.view.Metrics;
 
@@ -102,10 +103,14 @@ public class MainScene extends Scene {
         Metrics.cameraY = Math.max(0f, Math.min(targetY, maxY));
 
         if (1800 < targetY || HealthHud.get().isDie()) {
+            Sound.playEffect(R.raw.fail_sound);
+
             new ClearScene(checkpointStarCount, this.stageIndex, false).push();
         }
 
         if (checkpointStarCount > 0) {
+            Sound.playEffect(R.raw.clear_sound);
+
             new ClearScene(checkpointStarCount, this.stageIndex, true).push();
         }
     }
@@ -163,5 +168,24 @@ public class MainScene extends Scene {
         return true;
     }
 
+    @Override
+    public void onEnter() {
+        Sound.playMusic(R.raw.gamebgm);
+    }
+    @Override
+    public void onPause() {
+        Sound.pauseMusic();
+    }
+
+    @Override
+    public void onResume() {
+        Sound.resumeMusic();
+    }
+    @Override
+    public void onExit() {
+        Sound.stopMusic();
+    }
 }
+
+
 
