@@ -19,6 +19,8 @@ public class ClearScene extends Scene {
         bg.setPosition(w / 2, h / 2, w, h);
         add(ClearScene.ClearLayer.bg, bg);
 
+        GameData.get().saveStarCount(stageIndex, starCount);
+
         // 별 표시
         float starSize = 128;
         float spacing = 40;
@@ -62,6 +64,8 @@ public class ClearScene extends Scene {
         add(ClearLayer.ui, new Button(R.mipmap.button_back, R.mipmap.button_back, btnX3, btnY, btnWidth, btnHeight, pressed -> {
             Scene.pop(); // ClearScene 제거
             Scene.pop(); // MainScene도 제거 (예: Stage선택 화면으로)
+            Scene.pop(); // SelectScene제거
+            new SelectScene().push();
             return false;
         }));
     }

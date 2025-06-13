@@ -54,6 +54,42 @@ public class SelectScene extends Scene {
             new MainScene(2).push();
             return false;
         }));
+
+        for (int i = 0; i < 3; i++) {
+            int mapIndex = i;
+            int starCount = GameData.get().getStarCount(mapIndex);
+            float btnX;
+            switch (i) {
+                case 0:
+                    btnX = btnX1;
+                    break;
+                case 1:
+                    btnX = btnX2;
+                    break;
+                case 2:
+                    btnX = btnX3;
+                    break;
+                default:
+                    btnX = 0;
+                    break;
+            }
+
+            float starSize = 64;
+            float starSpacing = 20;
+            float totalWidth = starCount * starSize + (starCount - 1) * starSpacing;
+            float startX = btnX - totalWidth / 2;
+            float starY = btnY - 150; // 버튼 위쪽에 배치
+
+            for (int j = 0; j < starCount; j++) {
+                float starX = startX + j * (starSize + starSpacing);
+                Sprite star = new Sprite(R.mipmap.yellow_star);
+                star.setPosition(starX + starSize / 2, starY, starSize, starSize);
+                add(SelectLayer.ui, star);
+            }
+        }
+
+
+
     }
 
     @Override

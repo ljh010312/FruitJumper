@@ -58,6 +58,8 @@ public class PauseScene extends Scene{
         add(PauseLayer.ui, new Button(R.mipmap.button_back, R.mipmap.button_back, btnX3, btnY, btnWidth, btnHeight, pressed -> {
             Scene.pop(); // pauseScene pop
             Scene.pop(); // mainScene pop
+            Scene.pop(); // SelecScene pop
+            new SelectScene().push();
             return false;
         }));
 
