@@ -70,7 +70,7 @@ public class MainScene extends Scene {
         add(Layer.touch, new Button(R.mipmap.button_settings, R.mipmap.button_settings, 1550f, 50f, 100f, 100f, new Button.OnTouchListener() {
             @Override
             public boolean onTouch(boolean pressed) {
-                new PauseScene().push();
+                new PauseScene(stageIndex).push();
                 return true;
             }
         }));
@@ -155,7 +155,7 @@ public class MainScene extends Scene {
 
     @Override
     public boolean onBackPressed() {
-        new PauseScene().push();
+        new PauseScene(stageIndex).push();
         return true;
     }
 

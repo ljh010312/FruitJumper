@@ -17,7 +17,7 @@ public class PauseScene extends Scene{
     private long createdOn;
     //private final Toast toast;
 
-    public PauseScene() {
+    public PauseScene(int stageIndex) {
         initLayers(PauseLayer.values().length);
         Sprite bg = new Sprite(R.mipmap.trans_50b);
         float w = Metrics.width, h = Metrics.height;
@@ -44,7 +44,7 @@ public class PauseScene extends Scene{
         add(PauseLayer.ui, new Button(R.mipmap.button_restart, R.mipmap.button_restart, btnX1, btnY, btnWidth, btnHeight, pressed -> {
             Scene.pop(); // pauseScene pop
             Scene.pop(); // mainScene pop
-            new MainScene(0).push(); // 맵 여러개 되면 수정해야함
+            new MainScene(stageIndex).push(); // 맵 여러개 되면 수정해야함
             return false;
         }));
 
@@ -58,7 +58,7 @@ public class PauseScene extends Scene{
         add(PauseLayer.ui, new Button(R.mipmap.button_back, R.mipmap.button_back, btnX3, btnY, btnWidth, btnHeight, pressed -> {
             Scene.pop(); // pauseScene pop
             Scene.pop(); // mainScene pop
-            return true;
+            return false;
         }));
 
 

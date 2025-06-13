@@ -36,6 +36,7 @@ public class SelectScene extends Scene {
         float btnX3 = centerX + btnWidth + spacing;
         Bitmap image = BitmapPool.get(R.mipmap.start_fruit_jumper);
         add(StartScene.Layer.background, new ImageObject(image, 0, 0, Metrics.width, Metrics.height));
+
         // 맵1 선택 버튼
         add(SelectLayer.ui, new Button(R.mipmap.level_01, R.mipmap.level_01, btnX1, btnY, btnWidth, btnHeight, pressed -> {
             new MainScene(0).push();
@@ -51,7 +52,7 @@ public class SelectScene extends Scene {
         // 맵 3 선택 버튼
         add(SelectLayer.ui, new Button(R.mipmap.level_03, R.mipmap.level_03, btnX3, btnY, btnWidth, btnHeight, pressed -> {
             new MainScene(2).push();
-            return true;
+            return false;
         }));
     }
 
