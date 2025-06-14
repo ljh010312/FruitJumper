@@ -34,6 +34,7 @@ public class MainScene extends Scene {
         this.player = new Player();
         add(Layer.player, player);
         addButton();
+        add(Layer.enemy, new Slime(200, 1, 300, 1600));
         add(Layer.background, new VertScrollBackground(R.mipmap.background_brown, 40));
         add(Layer.platform, new MapLoader(this, this.stageIndex));
         FruitHud.get().clear();
@@ -120,54 +121,11 @@ public class MainScene extends Scene {
         super.draw(canvas);
 
     }
-
-
-    private void drawCollectedStars(Canvas canvas, int count) {
-        if (count <= 0) return;
-
-        int maxCount = Math.min(count, 3); // 최대 3개
-        Bitmap star = BitmapPool.get(R.mipmap.yellow_star);
-        float iconSize = 80f;
-        float spacing = 20f;
-
-        // 위치 계산
-        float totalWidth = iconSize * maxCount + spacing * (maxCount - 1);
-        float centerX = Metrics.width / 2f;
-        float centerY = Metrics.height / 2f;
-        float startX = centerX - totalWidth / 2f;
-        float y = centerY - iconSize / 2f;
-
-        float padding = 24f;
-        float bgLeft = startX - padding;
-        float bgTop = y - padding;
-        float bgRight = startX + totalWidth + padding;
-        float bgBottom = y + iconSize + padding;
-
-        Paint bgPaint = new Paint();
-        bgPaint.setColor(Color.WHITE);
-        bgPaint.setAlpha(200); // 반투명
-
-        Paint borderPaint = new Paint();
-        borderPaint.setColor(Color.BLACK);
-        borderPaint.setStyle(Paint.Style.STROKE);
-        borderPaint.setStrokeWidth(4f);
-
-        canvas.drawRect(bgLeft, bgTop, bgRight, bgBottom, bgPaint);   // 배경
-        canvas.drawRect(bgLeft, bgTop, bgRight, bgBottom, borderPaint); // 테두리
-
-        for (int i = 0; i < maxCount; i++) {
-            float x = startX + i * (iconSize + spacing);
-            RectF dst = new RectF(x, y, x + iconSize, y + iconSize);
-            canvas.drawBitmap(star, null, dst, null);
-        }
-    }
-
     @Override
     public boolean onBackPressed() {
         new PauseScene(stageIndex).push();
         return true;
     }
-
     @Override
     public void onEnter() {
         Sound.playMusic(R.raw.gamebgm);

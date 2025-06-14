@@ -33,7 +33,9 @@ public class Player extends AnimSprite implements IBoxCollidable {
     private int hp = 5;
     private State prevState = State.idle;
 
-
+    public float getVelocity() {
+        return velocityY;
+    }
 
 
     public enum State {
@@ -166,6 +168,14 @@ public class Player extends AnimSprite implements IBoxCollidable {
             setState(State.doubleJump);
             Sound.playEffect(R.raw.jump1);
         }
+    }
+
+    public void bounce(){
+        velocityY = -JUMP_POWER * 0.5f;
+        isOnGround = false;
+        hasDoubleJumped = false;
+        setState(State.jump);
+        Sound.playEffect(R.raw.jump1);
     }
 
     public void hit(){

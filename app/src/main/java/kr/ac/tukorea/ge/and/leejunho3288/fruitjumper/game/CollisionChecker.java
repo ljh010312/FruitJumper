@@ -37,10 +37,23 @@ public class CollisionChecker implements IGameObject {
             if (gobj instanceof MovingObstacle || gobj instanceof Spike) {
                 if (CollisionHelper.collides(player, (IBoxCollidable) gobj)) {
                     player.hit();
-
-
                 }
             }
+
+            if (gobj instanceof Slime) {
+                if (CollisionHelper.collides(player, (IBoxCollidable) gobj)) {
+                    Slime slime = (Slime) gobj;
+                    if (slime.getState() != Slime.State.run) continue;
+                    // 위에서 밟은 경우
+                    if (player.getVelocity() > 0) {
+                        ((Slime) gobj).onStepped();
+                        player.bounce(); // 점프 처리
+                    } else {
+                        player.hit(); // 옆에서 부딪힘
+                    }
+                }
+            }
+
         }
     }
 
