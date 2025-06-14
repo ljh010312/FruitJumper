@@ -34,7 +34,6 @@ public class MainScene extends Scene {
         this.player = new Player();
         add(Layer.player, player);
         addButton();
-        add(Layer.enemy, new Slime(200, 1, 300, 1600));
         add(Layer.background, new VertScrollBackground(R.mipmap.background_brown, 40));
         add(Layer.platform, new MapLoader(this, this.stageIndex));
         FruitHud.get().clear();
