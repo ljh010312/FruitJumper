@@ -127,8 +127,7 @@
 
 ## 직접 개발한 것
 1. 맵 스크롤링
-2. 플랫폼(2종)
-3. Singleton pattern (HUD, GameData)
+2. Singleton pattern (HUD, GameData)
 
 ## 아쉬운 것
 1. 캐릭터 벽 타기
